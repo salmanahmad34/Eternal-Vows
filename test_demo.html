@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Demo Mode</title>
+    <style>
+        body { font-family: Arial; padding: 40px; background: #f5f5f5; }
+        .test-box { background: white; padding: 30px; border-radius: 10px; max-width: 600px; margin: 0 auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #d4af37; }
+        button { background: #d4af37; color: white; border: none; padding: 12px 24px; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 10px 5px; }
+        button:hover { background: #b8941f; }
+        .result { margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 5px; display: none; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>🎭 DEMO MODE TEST</h1>
+        <p>Test the localStorage demo functionality without Firebase</p>
+        
+        <button onclick="createDemoInvitation()">Create Demo Invitation</button>
+        <button onclick="loadDemoInvitation()">Load Demo Invitation</button>
+        <button onclick="clearDemoData()">Clear Demo Data</button>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function createDemoInvitation() {
+            const demoId = 'demo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const formData = {
+                brideName: 'Priya Sharma',
+                groomName: 'Rahul Verma',
+                weddingDateTime: '2025-12-25T16:00',
+                marriageType: 'Love Marriage',
+                venue: 'Grand Palace Hotel, Mumbai',
+                welcomeMessage: 'We invite you to celebrate our special day!',
+                createdAt: new Date().toISOString()
+            };
+            
+            const demoInvitations = JSON.parse(localStorage.getItem('eternal_demo_invitations') || '{}');
+            demoInvitations[demoId] = formData;
+            localStorage.setItem('eternal_demo_invitations', JSON.stringify(demoInvitations));
+            
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('result').innerHTML = `
+                <strong>✅ Demo Invitation Created!</strong><br>
+                ID: <code>${demoId}</code><br>
+                Link: <code>?id=${demoId}</code><br>
+                <a href="invite.html?id=${demoId}" target="_blank"><button style="margin-top:10px;">Open Invitation</button></a>
+            `;
+        }
+        
+        function loadDemoInvitation() {
+            const demoInvitations = JSON.parse(localStorage.getItem('eternal_demo_invitations') || '{}');
+            const ids = Object.keys(demoInvitations);
+            
+            document.getElementById('result').style.display = 'block';
+            if (ids.length === 0) {
+                document.getElementById('result').innerHTML = '<strong>No demo invitations found.</strong> Click "Create Demo Invitation" first.';
+            } else {
+                let html = `<strong>Found ${ids.length} demo invitation(s):</strong><br><br>`;
+                ids.forEach(id => {
+                    const data = demoInvitations[id];
+                    html += `ID: <code>${id}</code> - ${data.brideName} & ${data.groomName}<br>
+                             <a href="invite.html?id=${id}" target="_blank"><button style="margin:5px 0;">View</button></a><br><br>`;
+                });
+                document.getElementById('result').innerHTML = html;
+            }
+        }
+        
+        function clearDemoData() {
+            localStorage.removeItem('eternal_demo_invitations');
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('result').innerHTML = '<strong>🗑️ Demo data cleared!</strong>';
+        }
+    </script>
+</body>
+</html>

@@ -21,6 +21,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
 
 // 🔥 REPLACE WITH YOUR FIREBASE CONFIGURATION 🔥
+// If you haven't configured Firebase yet, the app will work in DEMO MODE
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY_HERE",
     authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -30,9 +31,26 @@ const firebaseConfig = {
     appId: "YOUR_APP_ID"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Check if Firebase is properly configured
+let db = null;
+let isFirebaseConfigured = false;
+
+try {
+    // Only initialize if user has replaced placeholder values
+    if (firebaseConfig.apiKey !== "YOUR_API_KEY_HERE" && 
+        firebaseConfig.projectId !== "YOUR_PROJECT_ID") {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        isFirebaseConfigured = true;
+        console.log('✅ Firebase initialized successfully');
+    } else {
+        console.warn('⚠️ Firebase not configured - Running in DEMO MODE');
+        console.warn('📝 To enable full functionality, please update firebaseConfig in app.js with your Firebase credentials');
+    }
+} catch (error) {
+    console.error('❌ Firebase initialization error:', error);
+    console.warn('⚠️ Running in DEMO MODE due to Firebase error');
+}
 
 // ============================================
 // PAGE DETECTION & ROUTING
@@ -87,12 +105,30 @@ function initializeCreatorPage() {
                 throw new Error('Please fill in all required fields');
             }
 
-            // Save to Firestore
-            const docRef = await addDoc(collection(db, 'invitations'), formData);
-            
+            let docId;
+
+            if (isFirebaseConfigured && db) {
+                // Save to Firestore (REAL MODE)
+                console.log('💾 Saving to Firebase Firestore...');
+                const docRef = await addDoc(collection(db, 'invitations'), formData);
+                docId = docRef.id;
+                console.log('✅ Document saved with ID:', docId);
+            } else {
+                // DEMO MODE: Generate a fake ID and store in localStorage
+                console.log('🎭 DEMO MODE: Using localStorage instead of Firestore');
+                docId = 'demo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // Store in localStorage for demo purposes
+                const demoInvitations = JSON.parse(localStorage.getItem('eternal_demo_invitations') || '{}');
+                demoInvitations[docId] = formData;
+                localStorage.setItem('eternal_demo_invitations', JSON.stringify(demoInvitations));
+                
+                console.log('✅ Demo invitation saved with ID:', docId);
+            }
+
             // Generate shareable link
             const baseUrl = window.location.origin + window.location.pathname;
-            const inviteUrl = `${baseUrl.replace('index.html', 'invite.html')}?id=${docRef.id}`;
+            const inviteUrl = `${baseUrl.replace('index.html', 'invite.html')}?id=${docId}`;
 
             // Display success section with the invitation card created message
             generatedLinkInput.value = inviteUrl;
@@ -202,6 +238,24 @@ function initializeInvitationPage() {
 
 async function fetchInvitation(id) {
     try {
+        // Check if this is a demo ID
+        if (id.startsWith('demo_')) {
+            console.log('🎭 DEMO MODE: Fetching from localStorage');
+            const demoInvitations = JSON.parse(localStorage.getItem('eternal_demo_invitations') || '{}');
+            if (demoInvitations[id]) {
+                return demoInvitations[id];
+            } else {
+                console.log('No such demo document!');
+                return null;
+            }
+        }
+
+        // REAL MODE: Fetch from Firestore
+        if (!db) {
+            console.error('Firebase not initialized');
+            return null;
+        }
+
         const docRef = doc(db, 'invitations', id);
         const docSnap = await getDoc(docRef);
 

@@ -1,1 +1,1 @@
-Nothing should be ignored based on the provided file changes, as they only include source files (.js, .html, .css) and a markdown file (.md). No build artifacts, dependencies, or temporary files are present in the changes.
+Nothing should be ignored based on the provided file changes, as they only include source/config files (.js, .css, .html, .md) and no build artifacts, dependencies, or temp files.
