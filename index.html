@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Wedding Invitation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="card glass-effect">
+            <header>
+                <h1>✨ Create Your Wedding Invitation</h1>
+                <p class="subtitle">Design a beautiful digital invitation to share with your loved ones</p>
+            </header>
+
+            <form id="invitationForm">
+                <div class="form-group">
+                    <label for="brideName">Bride's Name</label>
+                    <input type="text" id="brideName" required placeholder="Enter bride's name">
+                </div>
+
+                <div class="form-group">
+                    <label for="groomName">Groom's Name</label>
+                    <input type="text" id="groomName" required placeholder="Enter groom's name">
+                </div>
+
+                <div class="form-group">
+                    <label for="weddingDateTime">Wedding Date & Time</label>
+                    <input type="datetime-local" id="weddingDateTime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="marriageType">Marriage Type</label>
+                    <select id="marriageType" required>
+                        <option value="">Select marriage type</option>
+                        <option value="Love Marriage">Love Marriage</option>
+                        <option value="Arranged Marriage">Arranged Marriage</option>
+                        <option value="Destination Wedding">Destination Wedding</option>
+                        <option value="Court Marriage">Court Marriage</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="venue">Venue/Location</label>
+                    <textarea id="venue" required rows="3" placeholder="Enter venue details"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="welcomeMessage">Welcome Message</label>
+                    <textarea id="welcomeMessage" required rows="4" placeholder="Write a heartfelt message for your guests"></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="btn-text">Create Invitation</span>
+                    <span class="btn-loader" style="display: none;">Creating...</span>
+                </button>
+            </form>
+
+            <!-- Success Section (Hidden by default) -->
+            <div id="successSection" class="success-section" style="display: none;">
+                <div class="success-icon">✓</div>
+                <h2>Your Invitation is Ready!</h2>
+                <p>Share this unique link with your guests:</p>
+                <div class="link-container">
+                    <input type="text" id="shareableLink" readonly>
+                    <button id="copyBtn" class="btn-secondary">Copy Link</button>
+                </div>
+                <p id="copyMessage" class="copy-message"></p>
+                <button id="createNewBtn" class="btn-outline">Create Another Invitation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK (Modular v9+) -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
