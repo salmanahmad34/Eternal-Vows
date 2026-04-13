@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading State -->
+    <div id="loadingState" class="container">
+        <div class="card glass-effect">
+            <div class="loading-spinner"></div>
+            <p>Loading your invitation...</p>
+        </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="container" style="display: none;">
+        <div class="card glass-effect">
+            <div class="error-icon">⚠</div>
+            <h2>Invitation Not Found</h2>
+            <p>We couldn't find this wedding invitation. Please check the link and try again.</p>
+            <button onclick="window.location.href='index.html'" class="btn-primary">Create Your Own</button>
+        </div>
+    </div>
+
+    <!-- Main Invitation Content -->
+    <div id="invitationContent" class="container" style="display: none;">
+        <div class="card glass-effect invitation-card">
+            <!-- Decorative Elements -->
+            <div class="decorative-corner top-left"></div>
+            <div class="decorative-corner top-right"></div>
+            <div class="decorative-corner bottom-left"></div>
+            <div class="decorative-corner bottom-right"></div>
+
+            <header class="invitation-header">
+                <p class="invitation-subtitle">Together with their families</p>
+                <h1 class="couple-names">
+                    <span id="brideNameDisplay"></span>
+                    <span class="ampersand">&</span>
+                    <span id="groomNameDisplay"></span>
+                </h1>
+                <p class="marriage-type" id="marriageTypeDisplay"></p>
+            </header>
+
+            <div class="divider"></div>
+
+            <section class="welcome-section">
+                <p id="welcomeMessageDisplay" class="welcome-message"></p>
+            </section>
+
+            <div class="details-section">
+                <div class="detail-item">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-content">
+                        <h3>When</h3>
+                        <p id="weddingDateDisplay"></p>
+                        <p id="weddingTimeDisplay"></p>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-content">
+                        <h3>Where</h3>
+                        <p id="venueDisplay"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Countdown Timer -->
+            <section class="countdown-section">
+                <h3>Counting Down to Our Special Day</h3>
+                <div class="countdown-timer" id="countdownTimer">
+                    <div class="countdown-box glass-effect">
+                        <span class="countdown-number" id="daysLeft">00</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-box glass-effect">
+                        <span class="countdown-number" id="hoursLeft">00</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-box glass-effect">
+                        <span class="countdown-number" id="minutesLeft">00</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-box glass-effect">
+                        <span class="countdown-number" id="secondsLeft">00</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                </div>
+                <p id="weddingDayMessage" class="wedding-day-message" style="display: none;">
+                    🎉 Happy Wedding Day! 🎉
+                </p>
+            </section>
+
+            <footer class="invitation-footer">
+                <p>We can't wait to celebrate with you!</p>
+                <p class="footer-note">Created with ❤️</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Firebase SDK (Modular v9+) -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
