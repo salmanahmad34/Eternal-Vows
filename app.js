@@ -1,6 +1,6 @@
 /**
  * ============================================
- * WEDDING INVITATION SAAS - MAIN APPLICATION
+ * ETERNAL - WEDDING INVITATION SAAS
  * Firebase Firestore Integration (Modular v9+)
  * ============================================
  */
@@ -8,8 +8,8 @@
 // ============================================
 // FIREBASE CONFIGURATION
 // ============================================
-// IMPORTANT: Replace the values below with your actual Firebase credentials
-// Get these from: Firebase Console > Project Settings > General > Your apps > SDK setup and configuration
+// 🔥 IMPORTANT: Replace with your actual Firebase credentials 🔥
+// Get these from: Firebase Console > Project Settings > Your apps > SDK setup
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
 import { 
@@ -38,38 +38,29 @@ const db = getFirestore(app);
 // PAGE DETECTION & ROUTING
 // ============================================
 
-// Determine which page we're on
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-
-// ============================================
-// CREATOR PAGE LOGIC (index.html)
-// ============================================
 
 if (currentPage === 'index.html' || currentPage === '') {
     initializeCreatorPage();
 }
-
-// ============================================
-// GUEST INVITATION PAGE LOGIC (invite.html)
-// ============================================
 
 if (currentPage === 'invite.html') {
     initializeInvitationPage();
 }
 
 // ============================================
-// CREATOR PAGE FUNCTIONS
+// CREATOR PAGE FUNCTIONS (index.html)
 // ============================================
 
 function initializeCreatorPage() {
     const form = document.getElementById('invitationForm');
-    const successSection = document.getElementById('successSection');
-    const shareableLinkInput = document.getElementById('shareableLink');
-    const copyBtn = document.getElementById('copyBtn');
-    const createNewBtn = document.getElementById('createNewBtn');
-    const copyMessage = document.getElementById('copyMessage');
+    const successMessage = document.getElementById('successMessage');
+    const generatedLinkInput = document.getElementById('generatedLink');
+    const previewLink = document.getElementById('previewLink');
     const btnText = document.querySelector('.btn-text');
     const btnLoader = document.querySelector('.btn-loader');
+
+    if (!form) return;
 
     // Handle form submission
     form.addEventListener('submit', async (e) => {
@@ -103,10 +94,15 @@ function initializeCreatorPage() {
             const baseUrl = window.location.origin + window.location.pathname;
             const inviteUrl = `${baseUrl.replace('index.html', 'invite.html')}?id=${docRef.id}`;
 
-            // Display success section
-            shareableLinkInput.value = inviteUrl;
+            // Display success section with the invitation card created message
+            generatedLinkInput.value = inviteUrl;
+            previewLink.href = inviteUrl;
+            
             form.style.display = 'none';
-            successSection.style.display = 'block';
+            successMessage.style.display = 'block';
+
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         } catch (error) {
             console.error('Error creating invitation:', error);
@@ -117,37 +113,56 @@ function initializeCreatorPage() {
             btnLoader.style.display = 'none';
         }
     });
-
-    // Copy link functionality
-    copyBtn.addEventListener('click', () => {
-        shareableLinkInput.select();
-        shareableLinkInput.setSelectionRange(0, 99999); // For mobile devices
-
-        navigator.clipboard.writeText(shareableLinkInput.value)
-            .then(() => {
-                copyMessage.textContent = '✓ Link copied to clipboard!';
-                setTimeout(() => {
-                    copyMessage.textContent = '';
-                }, 3000);
-            })
-            .catch(err => {
-                console.error('Failed to copy:', err);
-                copyMessage.textContent = '✗ Failed to copy. Please copy manually.';
-            });
-    });
-
-    // Create another invitation
-    createNewBtn.addEventListener('click', () => {
-        form.reset();
-        form.style.display = 'flex';
-        successSection.style.display = 'none';
-        btnText.style.display = 'inline';
-        btnLoader.style.display = 'none';
-    });
 }
 
+// Global function for copying link (accessible from HTML onclick)
+window.copyLink = function() {
+    const generatedLinkInput = document.getElementById('generatedLink');
+    const copyText = document.getElementById('copyText');
+    const copyIcon = document.getElementById('copyIcon');
+    
+    if (!generatedLinkInput) return;
+    
+    generatedLinkInput.select();
+    generatedLinkInput.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(generatedLinkInput.value)
+        .then(() => {
+            copyText.textContent = 'Copied!';
+            copyIcon.textContent = '✅';
+            setTimeout(() => {
+                copyText.textContent = 'Copy';
+                copyIcon.textContent = '📋';
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            copyText.textContent = 'Failed';
+            copyIcon.textContent = '❌';
+        });
+};
+
+// Global function for creating another invitation
+window.createAnother = function() {
+    const form = document.getElementById('invitationForm');
+    const successMessage = document.getElementById('successMessage');
+    const btnText = document.querySelector('.btn-text');
+    const btnLoader = document.querySelector('.btn-loader');
+    
+    if (!form) return;
+    
+    form.reset();
+    form.style.display = 'flex';
+    successMessage.style.display = 'none';
+    btnText.style.display = 'inline';
+    btnLoader.style.display = 'none';
+    
+    // Scroll back to form
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
 // ============================================
-// INVITATION PAGE FUNCTIONS
+// INVITATION PAGE FUNCTIONS (invite.html)
 // ============================================
 
 function initializeInvitationPage() {
@@ -172,6 +187,9 @@ function initializeInvitationPage() {
                 populateInvitation(data);
                 startCountdown(data.weddingDateTime);
                 showState(invitationContent);
+                
+                // Update page title
+                document.title = `${data.brideName} & ${data.groomName} - Wedding Invitation`;
             } else {
                 showState(errorState);
             }
@@ -232,9 +250,6 @@ function populateInvitation(data) {
         hour12: true 
     };
     document.getElementById('weddingTimeDisplay').textContent = weddingDate.toLocaleTimeString('en-US', timeOptions);
-    
-    // Set page title
-    document.title = `${data.brideName} & ${data.groomName} - Wedding Invitation`;
 }
 
 function startCountdown(weddingDateTimeString) {
@@ -284,43 +299,21 @@ function startCountdown(weddingDateTimeString) {
 
 function showState(element) {
     // Hide all states
-    document.getElementById('loadingState').style.display = 'none';
-    document.getElementById('errorState').style.display = 'none';
-    document.getElementById('invitationContent').style.display = 'none';
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const invitationContent = document.getElementById('invitationContent');
+    
+    if (loadingState) loadingState.style.display = 'none';
+    if (errorState) errorState.style.display = 'none';
+    if (invitationContent) invitationContent.style.display = 'none';
     
     // Show requested state
-    element.style.display = 'flex';
-    if (element.id === 'invitationContent') {
-        element.style.display = 'block';
+    if (element) {
+        element.style.display = 'flex';
+        if (element.id === 'invitationContent') {
+            element.style.display = 'block';
+        }
     }
-}
-
-// ============================================
-// UTILITY FUNCTIONS
-// ============================================
-
-/**
- * Format a date string into a readable format
- */
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const options = { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit'
-    };
-    return date.toLocaleDateString('en-US', options);
-}
-
-/**
- * Validate email format (if needed for future features)
- */
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
 }
 
 // ============================================
@@ -330,16 +323,10 @@ function isValidEmail(email) {
 // Global error handler for debugging
 window.addEventListener('error', (event) => {
     console.error('Global error:', event.error);
-    
-    // Only show alerts in development
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        // Uncomment below for debugging
-        // alert('An error occurred. Check console for details.');
-    }
 });
 
 // Console welcome message
-console.log('%c✨ Wedding Invitation SaaS ✨', 'color: #d4af37; font-size: 20px; font-weight: bold;');
+console.log('%c💍 Eternal - Wedding Invitation SaaS 💍', 'color: #d4af37; font-size: 20px; font-weight: bold;');
 console.log('%cBuilt with ❤️ using Firebase Firestore', 'color: #6b6b6b; font-size: 12px;');
 
 // ============================================
