@@ -3,79 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Your Wedding Invitation</title>
+    <title>Eternal - Create Your Dream Wedding Invitation</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="card glass-effect">
-            <header>
-                <h1>✨ Create Your Wedding Invitation</h1>
-                <p class="subtitle">Design a beautiful digital invitation to share with your loved ones</p>
-            </header>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">💍</span>
+                <span class="logo-text">Eternal</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#create" class="btn-nav">Create Now</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
-            <form id="invitationForm">
-                <div class="form-group">
-                    <label for="brideName">Bride's Name</label>
-                    <input type="text" id="brideName" required placeholder="Enter bride's name">
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg-animation">
+            <div class="floating-heart">💕</div>
+            <div class="floating-heart">💖</div>
+            <div class="floating-heart">💗</div>
+            <div class="floating-ring">💍</div>
+            <div class="floating-flower">🌹</div>
+            <div class="floating-flower">🌸</div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="gradient-text">Create Beautiful</span><br>
+                Digital Wedding Invitations
+            </h1>
+            <p class="hero-subtitle">Share your special day with elegance and style. Customize your invitation in minutes and share it with your loved ones worldwide.</p>
+            <div class="hero-buttons">
+                <a href="#create" class="btn btn-primary">Create Your Invitation</a>
+                <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Invitations Created</span>
                 </div>
-
-                <div class="form-group">
-                    <label for="groomName">Groom's Name</label>
-                    <input type="text" id="groomName" required placeholder="Enter groom's name">
+                <div class="stat-item">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Guests Reached</span>
                 </div>
-
-                <div class="form-group">
-                    <label for="weddingDateTime">Wedding Date & Time</label>
-                    <input type="datetime-local" id="weddingDateTime" required>
+                <div class="stat-item">
+                    <span class="stat-number">99%</span>
+                    <span class="stat-label">Happy Couples</span>
                 </div>
-
-                <div class="form-group">
-                    <label for="marriageType">Marriage Type</label>
-                    <select id="marriageType" required>
-                        <option value="">Select marriage type</option>
-                        <option value="Love Marriage">Love Marriage</option>
-                        <option value="Arranged Marriage">Arranged Marriage</option>
-                        <option value="Destination Wedding">Destination Wedding</option>
-                        <option value="Court Marriage">Court Marriage</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="venue">Venue/Location</label>
-                    <textarea id="venue" required rows="3" placeholder="Enter venue details"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="welcomeMessage">Welcome Message</label>
-                    <textarea id="welcomeMessage" required rows="4" placeholder="Write a heartfelt message for your guests"></textarea>
-                </div>
-
-                <button type="submit" class="btn-primary">
-                    <span class="btn-text">Create Invitation</span>
-                    <span class="btn-loader" style="display: none;">Creating...</span>
-                </button>
-            </form>
-
-            <!-- Success Section (Hidden by default) -->
-            <div id="successSection" class="success-section" style="display: none;">
-                <div class="success-icon">✓</div>
-                <h2>Your Invitation is Ready!</h2>
-                <p>Share this unique link with your guests:</p>
-                <div class="link-container">
-                    <input type="text" id="shareableLink" readonly>
-                    <button id="copyBtn" class="btn-secondary">Copy Link</button>
-                </div>
-                <p id="copyMessage" class="copy-message"></p>
-                <button id="createNewBtn" class="btn-outline">Create Another Invitation</button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Firebase SDK (Modular v9+) -->
-    <script type="module" src="app.js"></script>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose Eternal?</h2>
+            <p class="section-subtitle">Everything you need to create the perfect digital invitation</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Beautiful Designs</h3>
+                    <p>Premium templates with elegant animations and romantic themes that capture the essence of your love story.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3>Live Countdown</h3>
+                    <p>Build excitement with a real-time countdown timer showing days, hours, minutes, and seconds until your big day.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Responsive</h3>
+                    <p>Perfect viewing experience on all devices - smartphones, tablets, and desktops.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Easy Sharing</h3>
+                    <p>Generate a unique link instantly and share via WhatsApp, email, or social media with one click.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Fully Customizable</h3>
+                    <p>Personalize every detail - names, date, venue, message, and marriage type to match your vision.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Cloud Storage</h3>
+                    <p>Your invitation is securely stored in the cloud and accessible anytime from anywhere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Create your invitation in 3 simple steps</p>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📝</div>
+                    <h3>Fill the Form</h3>
+                    <p>Enter your wedding details including names, date, venue, and a personal message for your guests.</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">✨</div>
+                    <h3>We Create Magic</h3>
+                    <p>Our system instantly generates a beautiful, personalized digital invitation with live countdown.</p>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">📤</div>
+                    <h3>Share & Celebrate</h3>
+                    <p>Copy your unique link and share it with family and friends. Watch the RSVPs come in!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Invitation Section -->
+    <section id="create" class="create-section">
+        <div class="container">
+            <h2 class="section-title">Create Your Invitation</h2>
+            <p class="section-subtitle">Fill in the details below to generate your unique wedding invitation</p>
+            
+            <div class="form-container">
+                <form id="invitationForm" class="invitation-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="brideName">Bride's Name *</label>
+                            <input type="text" id="brideName" required placeholder="e.g., Priya Sharma">
+                        </div>
+                        <div class="form-group">
+                            <label for="groomName">Groom's Name *</label>
+                            <input type="text" id="groomName" required placeholder="e.g., Rahul Verma">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="weddingDateTime">Wedding Date & Time *</label>
+                            <input type="datetime-local" id="weddingDateTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="marriageType">Marriage Type *</label>
+                            <select id="marriageType" required>
+                                <option value="">Select Type</option>
+                                <option value="Love Marriage">Love Marriage</option>
+                                <option value="Arranged Marriage">Arranged Marriage</option>
+                                <option value="Court Marriage">Court Marriage</option>
+                                <option value="Destination Wedding">Destination Wedding</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="venue">Venue / Location *</label>
+                        <input type="text" id="venue" required placeholder="e.g., Grand Palace Hotel, Mumbai">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="welcomeMessage">Welcome Message</label>
+                        <textarea id="welcomeMessage" rows="4" placeholder="Write a heartfelt message for your guests..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <span class="btn-text">Create Invitation</span>
+                        <span class="btn-loader" style="display: none;">Creating...</span>
+                    </button>
+                </form>
+                
+                <!-- Success Message with Link -->
+                <div id="successMessage" class="success-message" style="display: none;">
+                    <div class="success-icon">✅</div>
+                    <h3>Your Invitation Card is Ready!</h3>
+                    <p>Your beautiful digital wedding invitation has been created successfully.</p>
+                    
+                    <div class="link-container">
+                        <label>Your Shareable Link:</label>
+                        <div class="link-box">
+                            <input type="text" id="generatedLink" readonly>
+                            <button class="btn-copy" onclick="copyLink()">
+                                <span id="copyIcon">📋</span>
+                                <span id="copyText">Copy</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="success-actions">
+                        <a id="previewLink" href="#" target="_blank" class="btn btn-secondary">
+                            👁️ Preview Invitation Card
+                        </a>
+                        <button onclick="createAnother()" class="btn btn-outline">
+                            ➕ Create Another
+                        </button>
+                    </div>
+                    
+                    <div class="share-hint">
+                        <p>💡 Tip: Share this link via WhatsApp, Email, or Social Media</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Got questions? We've got answers!</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is Eternal really free to use?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! Eternal is completely free to use. You can create unlimited wedding invitations without any hidden charges. We believe everyone deserves a beautiful digital invitation for their special day.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I share my invitation with guests?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Once you create your invitation, you'll receive a unique link. Simply copy this link and share it via WhatsApp, email, SMS, or any social media platform. Your guests can access the invitation by clicking the link.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I edit my invitation after creating it?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Currently, invitations are final once created. However, you can always create a new invitation with updated details and share the new link with your guests. We're working on an edit feature for future updates!</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How long will my invitation be available?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Your invitation will be available indefinitely! There's no expiration date. Your guests can access it anytime, even after the wedding day, as a beautiful memory of your special occasion.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is my data secure?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutely! We use Firebase Firestore with enterprise-grade security to store your invitation data. Your information is encrypted and protected with industry-standard security measures.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I use Eternal for other events?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>While Eternal is specifically designed for weddings, you can certainly use it for engagement parties, anniversary celebrations, or any special occasion. Just customize the details to match your event!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-icon">💍</span>
+                        <span class="logo-text">Eternal</span>
+                    </div>
+                    <p>Creating beautiful digital wedding invitations for couples worldwide. Make your special day unforgettable.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#create">Create Invitation</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>📧 support@eternal-invite.com</p>
+                    <p>💬 Need help? We're here for you!</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Eternal. Made with 💕 for couples everywhere.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // FAQ toggle
+        function toggleFAQ(button) {
+            const faqItem = button.parentElement;
+            const answer = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
+            
+            faqItem.classList.toggle('active');
+            
+            if (faqItem.classList.contains('active')) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                icon.textContent = '−';
+            } else {
+                answer.style.maxHeight = null;
+                icon.textContent = '+';
+            }
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Form submission handled by app.js
+    </script>
 </body>
 </html>
