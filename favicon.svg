@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="128" height="128">
+  <!-- Left Ring -->
+  <circle cx="38" cy="50" r="24" fill="none" stroke="#121212" stroke-width="5" />
+  <!-- Right Ring -->
+  <circle cx="62" cy="50" r="24" fill="none" stroke="#121212" stroke-width="5" />
+  <!-- Top overlapping arc of the left ring to create interlocking effect -->
+  <path d="M 38 26 A 24 24 0 0 1 62 50" fill="none" stroke="#121212" stroke-width="5" stroke-linecap="round" />
+</svg>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liinks Builder - Design-First Link-in-Bio Platform</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="builder.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Custom JS -->
+    <script src="builder.js" defer></script>
+</head>
+<body>
+
+    <!-- TOP BAR NAVIGATION -->
+    <header class="builder-header">
+        <div class="header-brand">
+            <span class="brand-badge" style="background: transparent; border: none; padding: 0; display: inline-flex; align-items: center;"><img src="favicon.png" alt="logo" style="height: 32px; width: 32px; border-radius: var(--radius-sm);"></span>
+            <h1>Eternal Vowz Builder</h1>
+            <span class="status-indicator-pill"><span class="pulse-dot"></span> Live</span>
+        </div>
+        <div class="header-actions">
+            <span class="preview-url-label">Your Link: <a href="#" id="preview-url-link" target="_blank">liinks.co/creator</a></span>
+            <button class="btn-secondary" id="publish-btn"><i class="fas fa-cloud-upload-alt"></i> Publish Changes</button>
+            <a href="index.html" class="btn-exit" title="Exit to Home"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </header>
+
+    <!-- MAIN WORKSPACE LAYOUT -->
+    <div class="workspace-container">
+        
+        <!-- LEFT PANEL: EDITOR CONTROLS -->
+        <aside class="editor-sidebar">
+            <nav class="editor-tabs">
+                <button class="tab-btn active" data-tab="design"><i class="fas fa-palette"></i> Design</button>
+                <button class="tab-btn" data-tab="blocks"><i class="fas fa-cubes"></i> Blocks</button>
+                <button class="tab-btn" data-tab="folders"><i class="fas fa-folder-plus"></i> Folders</button>
+                <button class="tab-btn" data-tab="pages"><i class="fas fa-file-alt"></i> Pages</button>
+                <button class="tab-btn" data-tab="analytics"><i class="fas fa-chart-bar"></i> Analytics</button>
+                <button class="tab-btn" data-tab="settings"><i class="fas fa-cog"></i> Settings</button>
+            </nav>
+
+            <div class="editor-content-area">
+                
+                <!-- TAB 1: DESIGN -->
+                <div class="tab-panel active" id="panel-design">
+                    <h2>Design Settings</h2>
+                    <p class="panel-desc">Customize themes, layouts, and typography presets.</p>
+                    
+                    <!-- Presets Templates -->
+                    <div class="control-section">
+                        <h3>1. Design Template</h3>
+                        <div class="template-presets">
+                            <button class="preset-box active" data-preset="creator">
+                                <span class="preset-preview preset-c-creator"></span>
+                                <strong>Creator Page</strong>
+                            </button>
+                            <button class="preset-box" data-preset="business">
+                                <span class="preset-preview preset-c-business"></span>
+                                <strong>Local Business</strong>
+                            </button>
+                            <button class="preset-box" data-preset="shop">
+                                <span class="preset-preview preset-c-shop"></span>
+                                <strong>Digital Shop</strong>
+                            </button>
+                            <button class="preset-box" data-preset="cyber">
+                                <span class="preset-preview preset-c-cyber"></span>
+                                <strong>Cyber Portfolio</strong>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Custom Themes -->
+                    <div class="control-section">
+                        <h3>2. Theme Colors</h3>
+                        <div class="theme-options-grid">
+                            <button class="theme-selector active" data-theme="champagne" style="background-color: #FAF9F7; border-color: #d4af37;" title="Champagne Gold"></button>
+                            <button class="theme-selector" data-theme="dark" style="background-color: #121212; border-color: #333333;" title="Obsidian Dark"></button>
+                            <button class="theme-selector" data-theme="rose" style="background-color: #FCF7F7; border-color: #b76e79;" title="Rose Gold"></button>
+                            <button class="theme-selector" data-theme="cyber" style="background-color: #0f172a; border-color: #3b82f6;" title="Neon Cyber"></button>
+                        </div>
+                    </div>
+
+                    <!-- Layout Presets -->
+                    <div class="control-section">
+                        <h3>3. Block Layout</h3>
+                        <div class="layout-options">
+                            <button class="layout-btn active" data-layout="list"><i class="fas fa-stream"></i> Classic List</button>
+                            <button class="layout-btn" data-layout="grid"><i class="fas fa-th-large"></i> Bento Grid</button>
+                        </div>
+                    </div>
+
+                    <!-- Typography Selector -->
+                    <div class="control-section">
+                        <h3>4. Typography</h3>
+                        <div class="font-options">
+                            <button class="font-btn active" data-font="outfit">Outfit (Modern)</button>
+                            <button class="font-btn" data-font="inter">Inter (Clean)</button>
+                            <button class="font-btn" data-font="playfair">Playfair (Luxury)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: BLOCKS -->
+                <div class="tab-panel" id="panel-blocks">
+                    <div class="panel-header-inline">
+                        <h2>Manage Blocks</h2>
+                        <button class="btn-primary btn-small" id="add-block-trigger"><i class="fas fa-plus"></i> Add Block</button>
+                    </div>
+                    <p class="panel-desc">Assemble, configure, and reorder elements on your page.</p>
+
+                    <!-- Active blocks list -->
+                    <div class="blocks-list-container" id="editor-blocks-list">
+                        <!-- Instantiated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- TAB 3: FOLDERS -->
+                <div class="tab-panel" id="panel-folders">
+                    <h2>Link Folders</h2>
+                    <p class="panel-desc">Tuck multiple links into a clean, expanding folder container.</p>
+
+                    <div class="control-section">
+                        <h3>Create New Folder</h3>
+                        <div class="inline-form-group">
+                            <input type="text" id="new-folder-name" placeholder="Folder Name (e.g. Socials)">
+                            <button class="btn-primary" id="create-folder-btn">Create</button>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>Active Folders</h3>
+                        <div class="folders-grid" id="editor-folders-list">
+                            <!-- Folders list loaded via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: PAGES -->
+                <div class="tab-panel" id="panel-pages">
+                    <div class="panel-header-inline">
+                        <h2>Navigation Pages</h2>
+                        <button class="btn-primary btn-small" id="add-page-trigger"><i class="fas fa-plus"></i> Add Page</button>
+                    </div>
+                    <p class="panel-desc">Expand your bio link into a multi-page micro website.</p>
+
+                    <div class="control-section">
+                        <h3>Profile Pages</h3>
+                        <div class="pages-list" id="editor-pages-list">
+                            <!-- Pages list loaded via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: ANALYTICS -->
+                <div class="tab-panel" id="panel-analytics">
+                    <h2>Traffic Analytics</h2>
+                    <p class="panel-desc">Monitor clicks, views, and referrers in real time.</p>
+
+                    <!-- Stats Cards -->
+                    <div class="analytics-metrics-grid">
+                        <div class="metric-card">
+                            <span class="metric-value">12,847</span>
+                            <span class="metric-label">Page Views</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value">8,234</span>
+                            <span class="metric-label">Link Clicks</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-value">64.1%</span>
+                            <span class="metric-label">CTR</span>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Performance Chart -->
+                    <div class="control-section">
+                        <h3>Audience Visits Chart</h3>
+                        <div class="chart-container">
+                            <div class="chart-bars-group" id="analytics-chart-bars">
+                                <!-- Rendered dynamically -->
+                            </div>
+                            <div class="chart-labels">
+                                <span>Mon</span>
+                                <span>Tue</span>
+                                <span>Wed</span>
+                                <span>Thu</span>
+                                <span>Fri</span>
+                                <span>Sat</span>
+                                <span>Sun</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Traffic Sources -->
+                    <div class="control-section">
+                        <h3>Top Referral Channels</h3>
+                        <div class="traffic-sources-list">
+                            <div class="source-row">
+                                <span class="source-name"><i class="fab fa-instagram"></i> Instagram</span>
+                                <span class="source-bar-wrapper"><span class="source-bar-fill" style="width: 75%"></span></span>
+                                <span class="source-count">4,230</span>
+                            </div>
+                            <div class="source-row">
+                                <span class="source-name"><i class="fab fa-tiktok"></i> TikTok</span>
+                                <span class="source-bar-wrapper"><span class="source-bar-fill" style="width: 50%"></span></span>
+                                <span class="source-count">2,840</span>
+                            </div>
+                            <div class="source-row">
+                                <span class="source-name"><i class="fas fa-globe"></i> Direct Traffic</span>
+                                <span class="source-bar-wrapper"><span class="source-bar-fill" style="width: 20%"></span></span>
+                                <span class="source-count">1,164</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 6: SETTINGS -->
+                <div class="tab-panel" id="panel-settings">
+                    <h2>Profile Configuration</h2>
+                    <p class="panel-desc">Set custom domains, QR codes, and integrations.</p>
+
+                    <!-- Domain Settings -->
+                    <div class="control-section">
+                        <h3>1. Custom Domain Branding</h3>
+                        <p class="section-sub-desc">Link your own web address to your Liinks bio profile.</p>
+                        <div class="inline-form-group">
+                            <input type="text" id="custom-domain-input" placeholder="e.g. bio.mybrand.com" value="bio.mybrand.com">
+                            <button class="btn-secondary" id="link-domain-btn">Link Domain</button>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Settings -->
+                    <div class="control-section">
+                        <h3>2. Custom QR Code</h3>
+                        <p class="section-sub-desc">Scan-tracked vector code that automatically matches your current theme.</p>
+                        <div class="qr-code-box">
+                            <div class="qr-visual-wrapper" id="qr-code-graphic">
+                                <!-- Branded QR code SVG will load here -->
+                            </div>
+                            <button class="btn-secondary btn-block" id="download-qr-btn"><i class="fas fa-download"></i> Download QR (PNG)</button>
+                        </div>
+                    </div>
+
+                    <!-- Auto Publish Settings -->
+                    <div class="control-section">
+                        <h3>3. Instagram Auto-Publish</h3>
+                        <div class="toggle-setting-row">
+                            <div>
+                                <strong>Auto-Sync Instagram Grid</strong>
+                                <p class="section-sub-desc" style="margin: 2px 0 0 0;">Automatically append latest posts directly on link click.</p>
+                            </div>
+                            <label class="switch-toggle">
+                                <input type="checkbox" id="instagram-sync-switch">
+                                <span class="slider-round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- RIGHT PANEL: PHONE PREVIEW -->
+        <main class="preview-panel">
+            <div class="preview-sticky-wrap">
+                <div class="phone-mockup-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen-viewport theme-champagne font-outfit" id="phone-preview-screen">
+                        
+                        <!-- Profile Header -->
+                        <div class="phone-header-container">
+                            <div class="profile-pic-frame">
+                                <div class="profile-pic" id="mock-profile-pic"></div>
+                                <span class="profile-verified-badge"><i class="fas fa-check"></i></span>
+                            </div>
+                            <h2 class="profile-username" id="mock-profile-title">Madison Rivera</h2>
+                            <p class="profile-description" id="mock-profile-bio">Content Creator | sharing everything I create & sell</p>
+                        </div>
+
+                        <!-- Multi-page navigation menu inside phone -->
+                        <nav class="phone-nav-menu" id="mock-phone-nav" style="display: none;">
+                            <!-- Pages tabs loaded dynamically -->
+                        </nav>
+
+                        <!-- Nested folder overlay panel -->
+                        <div class="folder-view-overlay" id="mock-folder-view">
+                            <div class="folder-view-header">
+                                <button class="btn-back-folder" id="btn-close-folder"><i class="fas fa-arrow-left"></i> Back</button>
+                                <h3 id="mock-folder-title">Folder Name</h3>
+                            </div>
+                            <div class="phone-blocks-container" id="mock-folder-blocks">
+                                <!-- Folder links load here -->
+                            </div>
+                        </div>
+
+                        <!-- Main Page blocks container -->
+                        <div class="phone-blocks-container" id="phone-mock-blocks">
+                            <!-- Page blocks load dynamically -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- MODAL POPUP: ADD BLOCK PICKER -->
+    <div class="block-modal" id="add-block-modal">
+        <div class="block-modal-content">
+            <span class="close-modal-btn" id="close-modal-trigger">&times;</span>
+            <h2>Add New Block</h2>
+            <p style="color: #666; margin-bottom: 20px; font-size: 0.9rem;">Choose the type of block you want to insert on your profile page.</p>
+            <div class="modal-grid">
+                <button class="block-type-btn" data-type="link">
+                    <i class="fas fa-link"></i>
+                    <strong>Standard Link</strong>
+                    <span>Tappable redirect button</span>
+                </button>
+                <button class="block-type-btn" data-type="image">
+                    <i class="fas fa-image"></i>
+                    <strong>Image Banner</strong>
+                    <span>Full width image layout</span>
+                </button>
+                <button class="block-type-btn" data-type="video">
+                    <i class="fab fa-youtube"></i>
+                    <strong>Video Embed</strong>
+                    <span>Direct YouTube player</span>
+                </button>
+                <button class="block-type-btn" data-type="music">
+                    <i class="fas fa-music"></i>
+                    <strong>Music Embed</strong>
+                    <span>Custom music player banner</span>
+                </button>
+                <button class="block-type-btn" data-type="form">
+                    <i class="fas fa-envelope"></i>
+                    <strong>Contact Form</strong>
+                    <span>Secure email lead capture</span>
+                </button>
+                <button class="block-type-btn" data-type="header">
+                    <i class="fas fa-heading"></i>
+                    <strong>Header Label</strong>
+                    <span>Structural text break</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

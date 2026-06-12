@@ -10,13 +10,14 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
     <!-- Custom JS -->
     <script src="app.js" defer></script>
@@ -31,10 +32,11 @@
     <!-- NAVBAR -->
     <nav id="navbar" class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">Eternal Vowz</a>
+            <a href="#" class="logo"><img src="favicon.svg" alt="logo" class="logo-icon-img"> eternal vowz</a>
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#templates">Templates</a>
+                <a href="#how-it-works">How It Works</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#faq">FAQ</a>
             </div>
@@ -53,197 +55,263 @@
         <div class="hero-container">
             <div class="hero-content">
                 <span class="premium-badge"><i class="fas fa-crown"></i> Premium Wedding Platform</span>
-                <h1 class="main-headline">One beautiful link<br>for your <span class="gradient-text">wedding</span>.</h1>
+                <h1 class="main-headline">One beautiful link for your wedding.</h1>
                 <p class="hero-subheading">Create a premium digital wedding invitation in seconds. Share on WhatsApp with countdown animations, RSVP tracking, and elegant transitions.</p>
                 
-                <!-- Interactive Live Simulator Controls -->
-                <div class="simulator-controls">
-                    <p class="controls-title">✨ Customize Live Demo</p>
-                    <div class="controls-inputs">
-                        <div class="input-group">
-                            <label for="sim-groom">Groom Name</label>
-                            <input type="text" id="sim-groom" placeholder="Rohan" value="Rohan">
-                        </div>
-                        <div class="input-group">
-                            <label for="sim-bride">Bride Name</label>
-                            <input type="text" id="sim-bride" placeholder="Sneha" value="Sneha">
-                        </div>
+                <!-- Liinks-style Claim URL bar -->
+                <div class="claim-container">
+                    <div class="claim-bar">
+                        <span class="claim-prefix">eternalvowz.in/</span>
+                        <input type="text" id="claim-input" placeholder="rohan-sneha" aria-label="Wedding URL Handle">
+                        <button id="claim-btn" class="btn-primary">Create Invite</button>
                     </div>
-                    <div class="theme-picker">
-                        <label>Select Theme:</label>
-                        <div class="theme-options">
-                            <button class="theme-dot champagne active" data-theme="champagne" title="Champagne Gold"></button>
-                            <button class="theme-dot rose" data-theme="rose" title="Rose Gold"></button>
-                            <button class="theme-dot luxury-dark" data-theme="dark" title="Luxury Dark"></button>
-                        </div>
-                    </div>
+                    <p class="claim-hint">No coding required. Live in 2 minutes. Try it for free.</p>
                 </div>
 
-                <div class="hero-buttons">
-                    <a href="#" class="btn-primary btn-large">Create Invitation — ₹39</a>
-                    <a href="#templates" class="btn-secondary btn-large">Explore Templates</a>
-                </div>
-
+                <!-- Trust / Social Proof -->
                 <div class="social-proof">
-                    <p class="trust-text">Trusted by 10,000+ happy couples</p>
                     <div class="proof-content">
                         <div class="avatars">
-                            <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=1');"></div>
-                            <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=5');"></div>
-                            <div class="avatar" style="background-image: url('https://i.pravatar.cc/100?img=3');"></div>
+                            <div class="avatar" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80');"></div>
+                            <div class="avatar" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80');"></div>
+                            <div class="avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80');"></div>
                         </div>
                         <div class="rating">
                             <div class="stars">
                                 <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
-                            <span class="rating-text">4.9/5 <span class="review-count">(2,840+ reviews)</span></span>
+                            <span class="rating-text">4.9/5 <span class="review-count">(2,840+ reviews from happy couples)</span></span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Dynamic Mobile Mockup -->
+            <!-- Overlapping Preview Blocks (Liinks Stack Style) -->
             <div class="hero-visual">
-                <div class="phone-mockup">
-                    <div class="phone-speaker"></div>
-                    <div class="phone-screen theme-champagne" id="phone-preview-screen">
-                        <!-- Mockup Webpage Content -->
-                        <div class="mock-invite-header">
-                            <div class="music-note-icon"><i class="fas fa-music"></i></div>
-                            <span class="mock-invite-badge">WEDDING INVITATION</span>
-                        </div>
-                        <div class="mock-invite-main">
-                            <h2 class="mock-couple-names" id="mock-groom-span">Rohan</h2>
-                            <div class="mock-ampersand">&</div>
-                            <h2 class="mock-couple-names" id="mock-bride-span">Sneha</h2>
-                            <p class="mock-invite-message">Invite you to celebrate their union</p>
-                            
-                            <!-- Countdown Component -->
-                            <div class="mock-countdown-box">
-                                <p class="countdown-label">COUNTDOWN TO BIG DAY</p>
-                                <div class="mock-timer">
-                                    <div class="mock-time-part"><span id="mock-days">14</span><small>Days</small></div>
-                                    <div class="mock-time-part"><span id="mock-hours">08</span><small>Hours</small></div>
-                                    <div class="mock-time-part"><span id="mock-minutes">45</span><small>Mins</small></div>
-                                    <div class="mock-time-part"><span id="mock-seconds">30</span><small>Secs</small></div>
-                                </div>
-                            </div>
+                <div class="visual-stack-container" id="phone-preview-screen">
+                    
+                    <!-- Card 1: Cover Header -->
+                    <div class="mock-card cover-card theme-element">
+                        <div class="card-badge">WEDDING INVITATION</div>
+                        <h2 class="couple-names"><span id="mock-groom-span">Rohan</span> & <span id="mock-bride-span">Sneha</span></h2>
+                        <p class="wedding-tagline">Invite you to celebrate their union</p>
+                    </div>
 
-                            <div class="mock-invite-details">
-                                <div class="detail-item">
-                                    <i class="far fa-calendar-alt"></i>
-                                    <span>Saturday, October 24, 2026</span>
-                                </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>The Leela Palace, Udaipur</span>
-                                </div>
-                            </div>
-                            
-                            <a href="#" class="mock-rsvp-btn" onclick="event.preventDefault(); alert('Sign up to track RSVPs live!');">RSVP Now</a>
+                    <!-- Card 2: Countdown Timer -->
+                    <div class="mock-card countdown-card theme-element">
+                        <p class="countdown-label">COUNTDOWN TO BIG DAY</p>
+                        <div class="mock-timer">
+                            <div class="mock-time-part"><span id="mock-days">14</span><small>Days</small></div>
+                            <div class="mock-time-part"><span id="mock-hours">08</span><small>Hours</small></div>
+                            <div class="mock-time-part"><span id="mock-minutes">45</span><small>Mins</small></div>
+                            <div class="mock-time-part"><span id="mock-seconds">30</span><small>Secs</small></div>
                         </div>
                     </div>
+
+                    <!-- Card 3: Music Player -->
+                    <div class="mock-card music-card theme-element">
+                        <div class="music-info">
+                            <button class="music-play-btn" aria-label="Play Music"><i class="fas fa-play"></i></button>
+                            <div>
+                                <p class="music-title">Soft Romantic Sitar & Flute</p>
+                                <p class="music-artist">Instrumental Vows</p>
+                            </div>
+                        </div>
+                        <div class="music-progress">
+                            <div class="progress-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: RSVP Action -->
+                    <div class="mock-card rsvp-card theme-element">
+                        <p class="rsvp-title">Will you share our special day?</p>
+                        <div class="rsvp-options">
+                            <button class="rsvp-option-btn accept" id="hero-rsvp-accept-btn">I'll Be There</button>
+                            <button class="rsvp-option-btn decline" id="hero-rsvp-decline-btn">Regretfully Decline</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Venue Map -->
+                    <div class="mock-card map-card theme-element">
+                        <div class="map-details">
+                            <div class="detail-line"><i class="far fa-calendar-alt"></i> <span>Saturday, October 24, 2026</span></div>
+                            <div class="detail-line"><i class="fas fa-map-marker-alt"></i> <span>The Leela Palace, Udaipur</span></div>
+                        </div>
+                        <a href="#" class="btn-map-link" id="hero-map-btn"><i class="fas fa-location-arrow"></i> Open Google Maps</a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- BENTO FEATURES GRID -->
+    <!-- SECTION 3: TRUST BAR -->
+    <section class="trust-bar">
+        <div class="trust-container">
+            <span class="trust-label">PLATFORM HIGHLIGHTS:</span>
+            <div class="trust-icons-grid">
+                <div class="trust-icon-item"><i class="fas fa-shield-alt"></i> Razorpay Secured</div>
+                <div class="trust-icon-item"><i class="fab fa-whatsapp"></i> WhatsApp Optimized</div>
+                <div class="trust-icon-item"><i class="fas fa-music"></i> Audio Customizer</div>
+                <div class="trust-icon-item"><i class="fas fa-chart-line"></i> Analytics Dashboard</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: BENTO FEATURES GRID -->
     <section id="features" class="bento-features scroll-anim">
         <div class="section-header center">
-            <span class="section-badge">Platform Highlights</span>
+            <span class="section-badge">Platform Features</span>
             <h2>Designed for Modern Couples</h2>
-            <p>Every feature you need to share, track, and manage your wedding invitation from one simple, beautiful page.</p>
+            <p>Every tool you need to design, customize, share, and track your wedding invitation from one simple dashboard.</p>
         </div>
         
         <div class="bento-grid">
-            <!-- Card 1: Expiration -->
-            <div class="bento-card col-span-2">
+            <!-- Card 1: Themes (Interactive Switcher) -->
+            <div class="bento-card col-span-2 theme-customizer-bento">
                 <div class="bento-card-content">
-                    <div class="bento-icon"><i class="far fa-calendar-times"></i></div>
-                    <h3>Active Until Wedding Day</h3>
-                    <p>Your wedding link stays active for all your guests, and automatically expires after your event. No long-term storage or hidden costs.</p>
-                </div>
-                <div class="bento-visual-expiration">
-                    <div class="expire-bar">
-                        <span>Countdown Active</span>
-                        <div class="status-pill active">Live</div>
+                    <div class="bento-icon"><i class="fas fa-palette"></i></div>
+                    <h3>Premium Design Customizer</h3>
+                    <p>Choose from carefully curated layouts designed by luxury agencies. Change colors, typography, and background themes in real time.</p>
+                    <div class="theme-picker">
+                        <span class="picker-label">Select Accent Theme:</span>
+                        <div class="theme-options">
+                            <button class="theme-dot champagne active" data-theme="champagne" title="Champagne Gold" aria-label="Champagne Gold Theme"></button>
+                            <button class="theme-dot rose" data-theme="rose" title="Rose Gold" aria-label="Rose Gold Theme"></button>
+                            <button class="theme-dot luxury-dark" data-theme="dark" title="Luxury Dark" aria-label="Luxury Dark Theme"></button>
+                        </div>
                     </div>
-                    <div class="expire-bar expired-state">
-                        <span>Event Completed</span>
-                        <div class="status-pill expired">Archived</div>
+                </div>
+                <div class="bento-visual bento-visual-themes">
+                    <div class="swatch-container">
+                        <div class="theme-swatch theme-champagne-swatch">Champagne</div>
+                        <div class="theme-swatch theme-rose-swatch">Rose Gold</div>
+                        <div class="theme-swatch theme-dark-swatch">Luxury Dark</div>
                     </div>
                 </div>
             </div>
 
             <!-- Card 2: Analytics -->
-            <div class="bento-card">
+            <div class="bento-card analytics-bento">
                 <div class="bento-card-content">
                     <div class="bento-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>Track Your Views</h3>
-                    <p>Real-time analytics. Know who has opened your invitation, when they visited, and click statistics.</p>
+                    <h3>Track Your Views (CTR)</h3>
+                    <p>Real-time analytics. Know who has opened your invitation, when they visited, and click statistics on map and RSVPs.</p>
                 </div>
-                <div class="bento-visual-analytics">
-                    <div class="analytics-number">12,847</div>
-                    <p class="analytics-label">Total Visits</p>
+                <div class="bento-visual bento-visual-analytics">
+                    <div class="analytics-stat">
+                        <span class="analytics-number">12,847</span>
+                        <span class="analytics-label">Total Visits</span>
+                    </div>
                     <div class="analytics-chart">
-                        <div class="bar" style="height: 40%"></div>
-                        <div class="bar" style="height: 60%"></div>
-                        <div class="bar" style="height: 45%"></div>
-                        <div class="bar" style="height: 80%"></div>
-                        <div class="bar" style="height: 95%"></div>
+                        <div class="chart-bar" style="height: 40%" title="Monday"></div>
+                        <div class="chart-bar" style="height: 60%" title="Tuesday"></div>
+                        <div class="chart-bar" style="height: 45%" title="Wednesday"></div>
+                        <div class="chart-bar" style="height: 80%" title="Thursday"></div>
+                        <div class="chart-bar" style="height: 95%" title="Friday"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 3: WhatsApp -->
-            <div class="bento-card">
+            <!-- Card 3: WhatsApp Sharing -->
+            <div class="bento-card whatsapp-bento">
                 <div class="bento-card-content">
                     <div class="bento-icon"><i class="fab fa-whatsapp"></i></div>
-                    <h3>WhatsApp Sharing</h3>
-                    <p>Send directly to WhatsApp without large PDF files. Instantly load previews and interactive cards.</p>
+                    <h3>WhatsApp Optimized</h3>
+                    <p>Send links directly on WhatsApp without sending heavy PDF cards. Generates professional rich-media card previews instantly.</p>
                 </div>
-                <div class="bento-visual-whatsapp">
-                    <div class="whatsapp-bubble">
+                <div class="bento-visual bento-visual-whatsapp">
+                    <div class="whatsapp-chat-bubble">
                         <p class="whatsapp-sender">Sneha & Rohan</p>
-                        <p class="whatsapp-text">We are getting married! Click to view our wedding invite: <span>eternalvowz.com/rohan-sneha</span></p>
+                        <p class="whatsapp-text">We are getting married! Click to view our wedding invite: <span class="whatsapp-link">eternalvowz.in/rohan-sneha</span></p>
                         <span class="whatsapp-time">12:00 PM ✓✓</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 4: Premium Templates -->
-            <div class="bento-card col-span-2">
+            <!-- Card 4: Event Expiration / Validity -->
+            <div class="bento-card col-span-2 validity-bento">
                 <div class="bento-card-content">
-                    <div class="bento-icon"><i class="fas fa-palette"></i></div>
-                    <h3>Premium Wedding Themes</h3>
-                    <p>Choose from carefully curated layouts designed by luxury wedding agencies. Match your colors, typography, and mood perfectly.</p>
+                    <div class="bento-icon"><i class="far fa-calendar-times"></i></div>
+                    <h3>Active Until Wedding Day</h3>
+                    <p>Your wedding link stays active for all your guests to RSVP and view directions, and automatically archives after your event. No recurring storage costs.</p>
                 </div>
-                <div class="bento-visual-themes">
-                    <div class="theme-swatch theme-champagne-swatch">
-                        <span>Champagne</span>
+                <div class="bento-visual bento-visual-expiration">
+                    <div class="expire-bar active-state">
+                        <span class="bar-title">Countdown Active</span>
+                        <div class="status-pill active-pill">Live</div>
                     </div>
-                    <div class="theme-swatch theme-rose-swatch">
-                        <span>Rose Gold</span>
-                    </div>
-                    <div class="theme-swatch theme-dark-swatch">
-                        <span>Luxury Dark</span>
+                    <div class="expire-bar archived-state">
+                        <span class="bar-title">Event Completed</span>
+                        <div class="status-pill expired-pill">Archived</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- TEMPLATE SHOWCASE -->
+    <!-- SECTION 4.5: COMPARISON TABLE -->
+    <section class="comparison-section scroll-anim" id="comparison">
+        <div class="section-header center">
+            <span class="section-badge">Comparison</span>
+            <h2>Physical vs. Digital Cards</h2>
+            <p>Why modern couples are shifting away from expensive paper printing to instant digital invitations.</p>
+        </div>
+        <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Traditional Paper Card</th>
+                        <th class="highlight-col">Eternal Vowz Digital Invite</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pricing & Cost</strong></td>
+                        <td>₹5,000 - ₹25,000+ (Design + Print + Delivery)</td>
+                        <td class="highlight-cell">₹39 Only (One-time payment)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Delivery Time</strong></td>
+                        <td>10 - 20 Days (Courier & Hand delivery)</td>
+                        <td class="highlight-cell">Instant Sharing (Via WhatsApp Link)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Corrections & Changes</strong></td>
+                        <td>Reprints required (Expensive & slow)</td>
+                        <td class="highlight-cell">Instant Edits (Change details anytime)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Guest RSVPs</strong></td>
+                        <td>Manual phone follow-ups (Time-consuming)</td>
+                        <td class="highlight-cell">Real-time RSVP Tracking & Portal</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Special Features</strong></td>
+                        <td>Static text & basic printed photo</td>
+                        <td class="highlight-cell">Ticking Countdown, Map Location & Music</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Eco-Friendly</strong></td>
+                        <td>Paper waste & courier carbon footprint</td>
+                        <td class="highlight-cell">100% Paperless & Sustainable</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECTION 5: TEMPLATE SHOWCASE -->
     <section id="templates" class="templates scroll-anim">
-        <div class="section-header">
+        <div class="section-header center">
             <span class="section-badge">Exquisite Layouts</span>
             <h2>Select Your Signature Style</h2>
-            <p>Our premium templates are designed to look flawless on both mobile screens and desktop monitors. Pick a layout and start personalizing.</p>
+            <p>Our premium templates are designed to look flawless on mobile screens and desktop monitors. Pick a layout and start personalizing.</p>
         </div>
         
         <div class="carousel-container">
-            <button class="carousel-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-btn prev-btn" aria-label="Previous Template"><i class="fas fa-chevron-left"></i></button>
             <div class="carousel-track">
                 <!-- Template Cards -->
                 <div class="template-card">
@@ -275,7 +343,7 @@
                     </div>
                 </div>
             </div>
-            <button class="carousel-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+            <button class="carousel-btn next-btn" aria-label="Next Template"><i class="fas fa-chevron-right"></i></button>
         </div>
         <div class="carousel-dots">
             <span class="dot"></span>
@@ -285,12 +353,39 @@
         </div>
     </section>
 
-    <!-- TESTIMONIALS -->
+    <!-- SECTION 6: HOW IT WORKS -->
+    <section id="how-it-works" class="how-it-works scroll-anim">
+        <div class="section-header center">
+            <span class="section-badge">Process</span>
+            <h2>How It Works</h2>
+            <p>Eternal Vowz makes it simple to create and share your wedding page in 3 easy steps.</p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h3>Claim Your URL</h3>
+                <p>Enter your custom names to get your unique RSVP link (e.g. <code>eternalvowz.in/rohan-sneha</code>).</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h3>Personalize Details</h3>
+                <p>Choose a theme, add dates, locations, maps, background music, and wedding details from your editor dashboard.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h3>Share on WhatsApp</h3>
+                <p>Send the link instantly to your family and friends. Guests RSVP and track directions, while you monitor responses live.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: TESTIMONIALS -->
     <section class="testimonials scroll-anim">
         <div class="section-header center">
             <span class="section-badge">Loved by Couples</span>
             <h2>What Couples Are Saying</h2>
-            <p>Read review ratings from real couples who used Eternal Vowz to share their special dates.</p>
+            <p>Read reviews from real couples who used Eternal Vowz to invite their guests.</p>
         </div>
         
         <div class="stats-row">
@@ -313,7 +408,7 @@
                 <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <p class="review-text">"The countdown was a huge hit among our friends! Creating the page took less than 2 minutes and looked incredibly premium."</p>
                 <div class="author-info">
-                    <div class="author-avatar" style="background-image: url('https://i.pravatar.cc/100?img=9');"></div>
+                    <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80');"></div>
                     <div>
                         <strong>Priya & Arjun</strong>
                         <small>Delhi, India</small>
@@ -324,7 +419,7 @@
                 <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                 <p class="review-text">"So clean and professional. It saved us thousands compared to physical printed cards, and we shared it instantly on WhatsApp."</p>
                 <div class="author-info">
-                    <div class="author-avatar" style="background-image: url('https://i.pravatar.cc/100?img=12');"></div>
+                    <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80');"></div>
                     <div>
                         <strong>Sneha & Rohan</strong>
                         <small>Mumbai, India</small>
@@ -335,7 +430,7 @@
                 <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
                 <p class="review-text">"Highly recommend the live views tracking feature. We knew exactly which relatives had opened the link. Absolutely worth ₹39!"</p>
                 <div class="author-info">
-                    <div class="author-avatar" style="background-image: url('https://i.pravatar.cc/100?img=20');"></div>
+                    <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=100&q=80');"></div>
                     <div>
                         <strong>Ananya & Rahul</strong>
                         <small>Bangalore, India</small>
@@ -345,7 +440,7 @@
         </div>
     </section>
 
-    <!-- PRICING SECTION -->
+    <!-- SECTION 8: PRICING SECTION -->
     <section id="pricing" class="pricing scroll-anim">
         <div class="section-header center">
             <span class="section-badge">Transparent Pricing</span>
@@ -370,7 +465,7 @@
                     <li><i class="fas fa-check"></i> Dynamic Background Music Support</li>
                 </ul>
                 <div class="price-footer">
-                    <button class="btn-primary btn-block">Create Invitation — ₹39</button>
+                    <button class="btn-primary btn-block cta-trigger">Create Invitation — ₹39</button>
                     <div class="secure-badges">
                         <span><i class="fas fa-shield-alt"></i> Secured by Razorpay</span>
                         <span><i class="fas fa-clock"></i> Live in 2 Minutes</span>
@@ -398,7 +493,7 @@
         </div>
     </section>
 
-    <!-- FAQ SECTION -->
+    <!-- SECTION 9: FAQ SECTION -->
     <section id="faq" class="faq scroll-anim">
         <div class="section-header center">
             <span class="section-badge">Got Questions?</span>
@@ -445,12 +540,12 @@
         </div>
     </section>
 
-    <!-- FINAL CTA -->
+    <!-- SECTION 10: FINAL CTA -->
     <section class="final-cta scroll-anim">
         <div class="cta-content">
             <h2>Ready to make your wedding link timeless?</h2>
             <p>Join 10,000+ couples who upgraded from boring PDF cards. Live in 2 minutes.</p>
-            <a href="#" class="btn-primary btn-large btn-glow">Create Invitation — ₹39</a>
+            <button class="btn-primary btn-large btn-glow cta-trigger">Create Invitation — ₹39</button>
         </div>
     </section>
 
@@ -458,12 +553,12 @@
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-col brand">
-                <h3>Eternal Vowz</h3>
+                <h3>eternal vowz</h3>
                 <p>Premium digital wedding cards and countdown invitations.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
             <div class="footer-col">
@@ -495,7 +590,7 @@
     <!-- LOGIN MODAL -->
     <div id="login-modal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal" aria-label="Close Modal">&times;</span>
             <div class="modal-header">
                 <h2>Welcome Back</h2>
                 <p>Sign in to create your timeless invitation</p>

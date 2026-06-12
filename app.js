@@ -1,54 +1,73 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Sticky Navbar
+    // 1. Sticky Navbar on Scroll
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
 
     // 2. Mobile Menu Toggle
     const mobileBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
     const navActions = document.querySelector('.nav-actions');
 
-    mobileBtn.addEventListener('click', () => {
-        // Simple toggle for mobile (can be expanded with a slide-out panel CSS)
-        const isVisible = navLinks.style.display === 'flex';
-        navLinks.style.display = isVisible ? 'none' : 'flex';
-        navLinks.style.flexDirection = 'column';
-        navLinks.style.position = 'absolute';
-        navLinks.style.top = '100%';
-        navLinks.style.left = '0';
-        navLinks.style.right = '0';
-        navLinks.style.background = '#FFFFFF';
-        navLinks.style.padding = '20px';
-        navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-        
-        navActions.style.display = isVisible ? 'none' : 'flex';
-        navActions.style.flexDirection = 'column';
-        navActions.style.position = 'absolute';
-        navActions.style.top = 'calc(100% + 180px)';
-        navActions.style.left = '0';
-        navActions.style.right = '0';
-        navActions.style.background = '#FFFFFF';
-        navActions.style.padding = '20px';
-        navActions.style.paddingTop = '0';
-        navActions.style.boxShadow = '0 20px 20px rgba(0,0,0,0.1)';
-    });
+    if (mobileBtn && navLinks && navActions) {
+        mobileBtn.addEventListener('click', () => {
+            const isVisible = navLinks.classList.contains('mobile-active');
+            
+            if (isVisible) {
+                navLinks.classList.remove('mobile-active');
+                navActions.classList.remove('mobile-active');
+                // Clean inline styles if set
+                navLinks.removeAttribute('style');
+                navActions.removeAttribute('style');
+            } else {
+                navLinks.classList.add('mobile-active');
+                navActions.classList.add('mobile-active');
+                
+                // Set layouts for mobile slide-down menu
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.background = '#FFFFFF';
+                navLinks.style.padding = '20px';
+                navLinks.style.borderBottom = '1px solid #ECEBE6';
+                navLinks.style.gap = '16px';
+                
+                navActions.style.display = 'flex';
+                navActions.style.flexDirection = 'column';
+                navActions.style.position = 'absolute';
+                navActions.style.top = 'calc(100% + 220px)';
+                navActions.style.left = '0';
+                navActions.style.right = '0';
+                navActions.style.background = '#FFFFFF';
+                navActions.style.padding = '20px';
+                navActions.style.paddingTop = '0';
+                navActions.style.gap = '16px';
+            }
+        });
+    }
 
-    // Reset mobile menu on resize
+    // Reset mobile menu layout on screen resize
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
-            navLinks.style.display = '';
-            navLinks.style.flexDirection = '';
-            navLinks.style.position = '';
-            navActions.style.display = '';
-            navActions.style.flexDirection = '';
-            navActions.style.position = '';
+            if (navLinks) {
+                navLinks.classList.remove('mobile-active');
+                navLinks.removeAttribute('style');
+            }
+            if (navActions) {
+                navActions.classList.remove('mobile-active');
+                navActions.removeAttribute('style');
+            }
         }
     });
 
@@ -57,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const observerOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.15
+        threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -71,131 +90,173 @@ document.addEventListener('DOMContentLoaded', () => {
 
     animElements.forEach(el => observer.observe(el));
 
-    // 4. Carousel Logic
+    // 4. Template Carousel Showcase
     const track = document.querySelector('.carousel-track');
     const cards = Array.from(document.querySelectorAll('.template-card'));
     const prevBtn = document.querySelector('.prev-btn');
     const nextBtn = document.querySelector('.next-btn');
     const dots = Array.from(document.querySelectorAll('.dot'));
     
-    let currentIndex = 1; // Start at center active card
-    let cardWidth = cards[0].getBoundingClientRect().width;
-    let gap = 30; // gap from CSS
-    
-    const updateCarousel = (index) => {
-        // Highlight active card
-        cards.forEach(c => c.classList.remove('active-card'));
-        if(cards[index]) cards[index].classList.add('active-card');
+    if (track && cards.length > 0 && prevBtn && nextBtn && dots.length > 0) {
+        let currentIndex = 1; // Start with the second card (Minimalist White) as active
         
-        // Update dots
-        dots.forEach(d => d.classList.remove('active'));
-        if(dots[index]) dots[index].classList.add('active');
+        const updateCarousel = (index) => {
+            cards.forEach(c => c.classList.remove('active-card'));
+            if (cards[index]) cards[index].classList.add('active-card');
+            
+            dots.forEach(d => d.classList.remove('active'));
+            if (dots[index]) dots[index].classList.add('active');
 
-        // Scroll track
-        if(track && cards[index]) {
-            track.scrollTo({
-                left: cards[index].offsetLeft - (track.clientWidth / 2) + (cards[index].clientWidth / 2),
-                behavior: 'smooth'
-            });
-        }
-    };
+            if (track && cards[index]) {
+                track.scrollTo({
+                    left: cards[index].offsetLeft - (track.clientWidth / 2) + (cards[index].clientWidth / 2),
+                    behavior: 'smooth'
+                });
+            }
+        };
 
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % cards.length;
-        updateCarousel(currentIndex);
-    });
-
-    prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-        updateCarousel(currentIndex);
-    });
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentIndex = index;
-            updateCarousel(currentIndex);
-        });
-    });
-
-    // Auto-scroll carousel every 5 seconds
-    setInterval(() => {
-        if(window.innerWidth > 768) { // Only auto-scroll on desktop
+        nextBtn.addEventListener('click', () => {
             currentIndex = (currentIndex + 1) % cards.length;
             updateCarousel(currentIndex);
-        }
-    }, 5000);
+        });
 
-    // 5. FAQ Accordion
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            updateCarousel(currentIndex);
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateCarousel(currentIndex);
+            });
+        });
+
+        // Autoplay carousel on desktop
+        setInterval(() => {
+            if (window.innerWidth > 768) {
+                currentIndex = (currentIndex + 1) % cards.length;
+                updateCarousel(currentIndex);
+            }
+        }, 6000);
+    }
+
+    // 5. FAQ Accordions
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-            // Close other open items
-            faqItems.forEach(otherItem => {
-                if (otherItem !== item && otherItem.classList.contains('active')) {
-                    otherItem.classList.remove('active');
-                }
+        if (question) {
+            question.addEventListener('click', () => {
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                item.classList.toggle('active');
             });
-            // Toggle current item
-            item.classList.toggle('active');
-        });
-    });
-
-    // 6. Login Modal Logic
-    const modal = document.getElementById('login-modal');
-    const closeBtn = document.querySelector('.close-modal');
-    const googleLoginBtn = document.getElementById('google-login-btn');
-    
-    // Select all buttons that should trigger the login modal
-    const getStartedBtns = document.querySelectorAll('.btn-primary, .login-link');
-    
-    getStartedBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            modal.classList.add('show');
-        });
-    });
-
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('show');
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('show');
         }
     });
 
-    // Simulate Google Login and Redirect to Dashboard
-    googleLoginBtn.addEventListener('click', () => {
-        googleLoginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-        googleLoginBtn.style.pointerEvents = 'none';
-        
-        // Simulate network delay
-        setTimeout(() => {
-            window.location.href = 'dashboard.html';
-        }, 1500);
+    // 6. Login Modal Trigger Flow
+    const modal = document.getElementById('login-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const googleLoginBtn = document.getElementById('google-login-btn');
+    const claimInput = document.getElementById('claim-input');
+    const claimBtn = document.getElementById('claim-btn');
+    
+    // Select all generic CTA elements that should open signup
+    const ctaTriggers = document.querySelectorAll('.cta-trigger, .login-link, .nav-actions .btn-primary');
+
+    const openModal = () => {
+        if (modal) {
+            modal.classList.add('show');
+        }
+    };
+
+    const closeModal = () => {
+        if (modal) {
+            modal.classList.remove('show');
+        }
+    };
+
+    ctaTriggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
     });
 
-    // --- 7. Interactive Hero Mockup Simulator ---
-    const simGroom = document.getElementById('sim-groom');
-    const simBride = document.getElementById('sim-bride');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeModal);
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Handle Claim Bar Button
+    if (claimBtn && claimInput) {
+        claimBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const handleValue = claimInput.value.trim();
+            if (handleValue) {
+                // Save chosen handle in sessionStorage for pre-population in the dashboard
+                sessionStorage.setItem('eternal_vowz_claimed_handle', handleValue);
+            }
+            openModal();
+        });
+    }
+
+    // Simulate Google Sign-in and redirect to Dashboard
+    if (googleLoginBtn) {
+        googleLoginBtn.addEventListener('click', () => {
+            googleLoginBtn.replaceChildren(); // Safe DOM clear
+            
+            const spinner = document.createElement('i');
+            spinner.className = 'fas fa-spinner fa-spin';
+            
+            const textNode = document.createTextNode(' Signing in...');
+            
+            googleLoginBtn.appendChild(spinner);
+            googleLoginBtn.appendChild(textNode);
+            googleLoginBtn.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1200);
+        });
+    }
+
+    // 7. Interactive Hero Mockup Simulator (updates names dynamically from Claim bar input)
     const mockGroom = document.getElementById('mock-groom-span');
     const mockBride = document.getElementById('mock-bride-span');
-    const previewScreen = document.getElementById('phone-preview-screen');
+
+    if (claimInput && mockGroom && mockBride) {
+        claimInput.addEventListener('input', () => {
+            const val = claimInput.value.trim();
+            if (!val) {
+                mockGroom.textContent = 'Rohan';
+                mockBride.textContent = 'Sneha';
+                return;
+            }
+            
+            // Auto-parse input like "rohan-sneha", "sneha & arjun", "sneha arjun"
+            const parts = val.split(/[-& +]/).filter(p => p.length > 0);
+            if (parts.length >= 2) {
+                mockGroom.textContent = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+                mockBride.textContent = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+            } else if (parts.length === 1) {
+                mockGroom.textContent = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+                mockBride.textContent = 'Sneha';
+            }
+        });
+    }
+
+    // 8. Bento Theme Customizer Selector (Updates theme classes on Mockup stack)
     const themeDots = document.querySelectorAll('.theme-dot');
-
-    if (simGroom && mockGroom) {
-        simGroom.addEventListener('input', () => {
-            mockGroom.textContent = simGroom.value || 'Groom';
-        });
-    }
-
-    if (simBride && mockBride) {
-        simBride.addEventListener('input', () => {
-            mockBride.textContent = simBride.value || 'Bride';
-        });
-    }
+    const previewScreen = document.getElementById('phone-preview-screen');
 
     themeDots.forEach(dot => {
         dot.addEventListener('click', () => {
@@ -204,13 +265,51 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const selectedTheme = dot.getAttribute('data-theme');
             if (previewScreen) {
-                previewScreen.classList.remove('theme-champagne', 'theme-rose', 'theme-dark');
+                previewScreen.className = 'visual-stack-container'; // Reset
                 previewScreen.classList.add(`theme-${selectedTheme}`);
             }
         });
     });
 
-    // --- 8. Mockup Countdown Clock ---
+    // 9. RSVP Buttons inside Mockup (Updates states dynamically without unsafe alert dialogues)
+    const mockRsvpAccept = document.getElementById('hero-rsvp-accept-btn');
+    const mockRsvpDecline = document.getElementById('hero-rsvp-decline-btn');
+
+    if (mockRsvpAccept && mockRsvpDecline) {
+        mockRsvpAccept.addEventListener('click', (e) => {
+            e.preventDefault();
+            mockRsvpAccept.textContent = '✓ Registered!';
+            mockRsvpAccept.style.backgroundColor = '#2E7D32';
+            mockRsvpAccept.style.borderColor = '#2E7D32';
+            mockRsvpAccept.style.color = '#FFFFFF';
+            mockRsvpDecline.textContent = 'Regretfully Decline';
+            mockRsvpDecline.removeAttribute('style');
+        });
+
+        mockRsvpDecline.addEventListener('click', (e) => {
+            e.preventDefault();
+            mockRsvpDecline.textContent = 'Declined';
+            mockRsvpDecline.style.backgroundColor = '#C62828';
+            mockRsvpDecline.style.borderColor = '#C62828';
+            mockRsvpDecline.style.color = '#FFFFFF';
+            mockRsvpAccept.textContent = "I'll Be There";
+            mockRsvpAccept.removeAttribute('style');
+        });
+    }
+
+    const mockMapBtn = document.getElementById('hero-map-btn');
+    if (mockMapBtn) {
+        mockMapBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            mockMapBtn.textContent = '✓ Opening Maps...';
+            setTimeout(() => {
+                mockMapBtn.textContent = 'Open Google Maps';
+            }, 2000);
+            openModal();
+        });
+    }
+
+    // 10. Ticking Mockup Countdown Timer (14 days forward loop)
     const mockDaysEl = document.getElementById('mock-days');
     const mockHoursEl = document.getElementById('mock-hours');
     const mockMinEl = document.getElementById('mock-minutes');
@@ -228,6 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const distance = targetDate.getTime() - now;
 
             if (distance < 0) {
+                // Loop countdown if expired
                 targetDate.setDate(new Date().getDate() + 14);
                 return;
             }
