@@ -1962,6 +1962,74 @@ p {
     }
 }
 
+/* Comparison Table Section */
+.comparison-section {
+    padding: 120px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.comparison-table-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    border: 2px dotted var(--text-main);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-soft);
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.comparison-table th, 
+.comparison-table td {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+
+.comparison-table th {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    letter-spacing: -0.3px;
+}
+
+.comparison-table tr:last-child td {
+    border-bottom: none;
+}
+
+.comparison-table .highlight-col {
+    color: var(--text-main);
+    background: rgba(18, 18, 18, 0.02);
+    font-weight: 700;
+}
+
+.comparison-table .highlight-cell {
+    background: rgba(18, 18, 18, 0.02);
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+@media (max-width: 768px) {
+    .comparison-table-wrapper {
+        padding: 16px;
+    }
+    .comparison-table th, 
+    .comparison-table td {
+        padding: 12px 8px;
+        font-size: 0.8rem;
+    }
+    .comparison-table th {
+        font-size: 0.85rem;
+    }
+}
+
 
 /* ==========================================================================
    RESPONSIVE DESIGN & MEDIA QUERY ADAPTATIONS
