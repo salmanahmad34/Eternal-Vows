@@ -15,6 +15,10 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="index.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Supabase & Init -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-init.js" defer></script>
     
     <style>
         body {
@@ -244,13 +248,152 @@
     </footer>
 
     <script>
-        // Simple countdown simulator
-        const timer = document.getElementById('timer');
-        let days = 18;
-        setInterval(() => {
-            // In a real app this would calculate exact time difference
-            // Here we just make sure the component exists
-        }, 1000);
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Parse query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const inviteId = urlParams.get('id');
+            
+            if (inviteId) {
+                await loadInviteDetails(inviteId);
+            } else {
+                // Default local countdown logic if no ID is provided
+                const timerEl = document.getElementById('timer');
+                if (timerEl) {
+                    timerEl.textContent = '18 Days';
+                }
+            }
+            
+            async function loadInviteDetails(id) {
+                try {
+                    if (!supabaseClient) throw new Error('Supabase client not initialized');
+                    
+                    const { data, error } = await supabaseClient
+                        .from('invitations')
+                        .select('*')
+                        .eq('id', id)
+                        .single();
+                        
+                    if (error) throw error;
+                    if (data) {
+                        // Increment views count (async call in background)
+                        supabaseClient.from('invitations').update({ views: (data.views || 0) + 1 }).eq('id', id).then();
+                        
+                        renderInvite(data);
+                    }
+                } catch (err) {
+                    console.error('Error loading invitation details:', err);
+                    
+                    // Local Storage Fallback
+                    const localInvites = JSON.parse(localStorage.getItem('eternal_vowz_local_invitations') || '[]');
+                    const found = localInvites.find(i => i.id === id || String(i.id) === String(id));
+                    if (found) {
+                        renderInvite(found);
+                    } else {
+                        showToast('Invitation not found.', 'error');
+                    }
+                }
+            }
+            
+            function renderInvite(data) {
+                // Update title
+                document.title = `${data.groom_name} & ${data.bride_name}'s Wedding`;
+                
+                // Update names (XSS safe creation)
+                const namesEl = document.querySelector('.invite-details h2');
+                if (namesEl) {
+                    namesEl.replaceChildren();
+                    const groomNode = document.createTextNode(data.groom_name);
+                    const ampSpan = document.createElement('span');
+                    ampSpan.style.fontSize = '1.5rem';
+                    ampSpan.style.color = 'var(--accent-gold)';
+                    ampSpan.style.margin = '0 15px';
+                    ampSpan.textContent = '&';
+                    const brideNode = document.createTextNode(data.bride_name);
+                    
+                    namesEl.appendChild(groomNode);
+                    namesEl.appendChild(document.createElement('br'));
+                    namesEl.appendChild(ampSpan);
+                    namesEl.appendChild(document.createElement('br'));
+                    namesEl.appendChild(brideNode);
+                }
+                
+                // Update countdown subtitle
+                const subtitleEl = document.querySelector('.countdown-subtitle');
+                if (subtitleEl) {
+                    subtitleEl.textContent = `until ${data.groom_name} & ${data.bride_name}'s Wedding`;
+                }
+                
+                // Update date
+                const dateEl = document.querySelector('.highlight-date');
+                if (dateEl && data.wedding_date) {
+                    const d = new Date(data.wedding_date);
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    dateEl.textContent = d.toLocaleDateString('en-US', options);
+                }
+                
+                // Update custom message
+                const msgEl = document.querySelector('.custom-message');
+                if (msgEl) {
+                    msgEl.textContent = `"${data.invite_message || 'Join us as we begin forever'}"`;
+                }
+                
+                // Calculate Live Countdown
+                const timerEl = document.getElementById('timer');
+                if (timerEl && data.wedding_date) {
+                    const target = new Date(data.wedding_date).getTime();
+                    
+                    const updateTimer = () => {
+                        const now = new Date().getTime();
+                        const distance = target - now;
+                        
+                        if (distance < 0) {
+                            timerEl.textContent = 'Event Completed';
+                        } else {
+                            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            timerEl.textContent = `${days} Days ${hours}h`;
+                        }
+                    };
+                    updateTimer();
+                    setInterval(updateTimer, 60000); // update every minute
+                }
+                
+                // Update click handlers (replaces inline blocking alerts)
+                const waBtn = document.querySelector('.btn-whatsapp');
+                if (waBtn) {
+                    waBtn.onclick = null; // clear legacy inline handler
+                    waBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const shareUrl = window.location.href;
+                        const text = `You are cordially invited to the wedding of ${data.groom_name} and ${data.bride_name}! Open this link to view details: ${shareUrl}`;
+                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+                    });
+                }
+                
+                const copyBtn = document.querySelector('.btn-copy');
+                if (copyBtn) {
+                    copyBtn.onclick = null; // clear legacy inline handler
+                    copyBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        navigator.clipboard.writeText(window.location.href).then(() => {
+                            copyBtn.replaceChildren();
+                            const icon = document.createElement('i');
+                            icon.className = 'fas fa-check';
+                            copyBtn.appendChild(icon);
+                            copyBtn.appendChild(document.createTextNode(' Copied!'));
+                            
+                            setTimeout(() => {
+                                copyBtn.replaceChildren();
+                                const linkIcon = document.createElement('i');
+                                linkIcon.className = 'fas fa-link';
+                                copyBtn.appendChild(linkIcon);
+                                copyBtn.appendChild(document.createTextNode(' Copy Link'));
+                            }, 2000);
+                        });
+                    });
+                }
+            }
+        });
     </script>
 </body>
 </html>

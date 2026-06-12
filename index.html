@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="index.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     
+    <!-- Supabase & Init -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-init.js" defer></script>
+
     <!-- Custom JS -->
     <script src="app.js" defer></script>
 </head>
@@ -592,17 +596,36 @@
         <div class="modal-content">
             <span class="close-modal" aria-label="Close Modal">&times;</span>
             <div class="modal-header">
-                <h2>Welcome Back</h2>
-                <p>Sign in to create your timeless invitation</p>
+                <h2 id="auth-title">Welcome Back</h2>
+                <p id="auth-subtitle">Sign in to create your timeless invitation</p>
             </div>
             <div class="modal-body">
+                <form id="auth-form" style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
+                    <div style="display: flex; flex-direction: column; text-align: left; gap: 6px;">
+                        <label for="auth-email" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-sec);">Email Address</label>
+                        <input type="email" id="auth-email" required placeholder="name@example.com" style="padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; outline: none; background: #FAFAF9;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; text-align: left; gap: 6px;">
+                        <label for="auth-password" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-sec);">Password</label>
+                        <input type="password" id="auth-password" required placeholder="••••••••" style="padding: 12px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; outline: none; background: #FAFAF9;">
+                    </div>
+                    <button type="submit" id="auth-submit-btn" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px;">Sign In with Email</button>
+                </form>
+                
+                <div style="display: flex; align-items: center; margin: 20px 0; color: var(--text-light); font-size: 0.85rem;">
+                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+                    <span style="padding: 0 10px;">or</span>
+                    <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+                </div>
+
                 <button id="google-login-btn" class="btn-google">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google Logo" class="google-icon">
                     Sign in with Google
                 </button>
             </div>
-            <div class="modal-footer">
-                <p>By signing in, you agree to our <a href="#">Terms & Conditions</a>.</p>
+            <div class="modal-footer" style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px; text-align: center;">
+                <p id="auth-toggle-wrapper">Don't have an account? <a href="#" id="auth-toggle-link" style="color: var(--accent-gold); font-weight: 600; text-decoration: underline;">Sign Up</a></p>
+                <p style="font-size: 0.75rem; color: var(--text-light); margin-top: 10px;">By signing in, you agree to our <a href="#" style="text-decoration: underline;">Terms & Conditions</a>.</p>
             </div>
         </div>
     </div>

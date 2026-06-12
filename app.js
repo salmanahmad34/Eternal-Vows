@@ -209,24 +209,145 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Simulate Google Sign-in and redirect to Dashboard
-    if (googleLoginBtn) {
-        googleLoginBtn.addEventListener('click', () => {
+    // Handle Toggle Auth Mode (Sign In <=> Sign Up)
+    const authForm = document.getElementById('auth-form');
+    const authTitle = document.getElementById('auth-title');
+    const authSubtitle = document.getElementById('auth-subtitle');
+    const authSubmitBtn = document.getElementById('auth-submit-btn');
+    const authToggleLink = document.getElementById('auth-toggle-link');
+    const authToggleWrapper = document.getElementById('auth-toggle-wrapper');
+    
+    let isSignUpMode = false;
+    
+    if (authToggleLink && authToggleWrapper && authTitle && authSubtitle && authSubmitBtn) {
+        // Event delegation or direct listener recreation
+        const toggleHandler = (e) => {
+            e.preventDefault();
+            isSignUpMode = !isSignUpMode;
+            
+            if (isSignUpMode) {
+                authTitle.textContent = 'Create Account';
+                authSubtitle.textContent = 'Sign up to start creating your timeless invitation';
+                authSubmitBtn.textContent = 'Sign Up with Email';
+                authToggleWrapper.replaceChildren();
+                
+                const label = document.createTextNode('Already have an account? ');
+                const link = document.createElement('a');
+                link.href = '#';
+                link.id = 'auth-toggle-link';
+                link.style.color = 'var(--accent-gold)';
+                link.style.fontWeight = '600';
+                link.style.textDecoration = 'underline';
+                link.textContent = 'Sign In';
+                link.addEventListener('click', toggleHandler);
+                
+                authToggleWrapper.appendChild(label);
+                authToggleWrapper.appendChild(link);
+            } else {
+                authTitle.textContent = 'Welcome Back';
+                authSubtitle.textContent = 'Sign in to create your timeless invitation';
+                authSubmitBtn.textContent = 'Sign In with Email';
+                authToggleWrapper.replaceChildren();
+                
+                const label = document.createTextNode("Don't have an account? ");
+                const link = document.createElement('a');
+                link.href = '#';
+                link.id = 'auth-toggle-link';
+                link.style.color = 'var(--accent-gold)';
+                link.style.fontWeight = '600';
+                link.style.textDecoration = 'underline';
+                link.textContent = 'Sign Up';
+                link.addEventListener('click', toggleHandler);
+                
+                authToggleWrapper.appendChild(label);
+                authToggleWrapper.appendChild(link);
+            }
+        };
+        authToggleLink.addEventListener('click', toggleHandler);
+    }
+
+    // Submit Email/Password Auth
+    if (authForm && supabaseClient) {
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value;
+            
+            const submitBtnText = authSubmitBtn.textContent;
+            authSubmitBtn.replaceChildren();
+            const spinner = document.createElement('i');
+            spinner.className = 'fas fa-spinner fa-spin';
+            authSubmitBtn.appendChild(spinner);
+            authSubmitBtn.appendChild(document.createTextNode(' Processing...'));
+            authSubmitBtn.disabled = true;
+            
+            try {
+                if (isSignUpMode) {
+                    const { data, error } = await supabaseClient.auth.signUp({ email, password });
+                    if (error) throw error;
+                    
+                    showToast('Sign up successful! You can now log in.', 'success');
+                    // Automatically toggle to sign in mode
+                    if (authToggleLink) authToggleLink.click();
+                } else {
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                    if (error) throw error;
+                    
+                    showToast('Login successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                }
+            } catch (err) {
+                console.error('Authentication error:', err);
+                showToast(err.message || 'Authentication failed. Please try again.', 'error');
+            } finally {
+                authSubmitBtn.textContent = submitBtnText;
+                authSubmitBtn.disabled = false;
+            }
+        });
+    }
+
+    // Handle Google OAuth Sign-in using Supabase
+    if (googleLoginBtn && supabaseClient) {
+        googleLoginBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
             googleLoginBtn.replaceChildren(); // Safe DOM clear
             
             const spinner = document.createElement('i');
             spinner.className = 'fas fa-spinner fa-spin';
-            
-            const textNode = document.createTextNode(' Signing in...');
+            const textNode = document.createTextNode(' Redirecting...');
             
             googleLoginBtn.appendChild(spinner);
             googleLoginBtn.appendChild(textNode);
             googleLoginBtn.style.pointerEvents = 'none';
             
-            setTimeout(() => {
-                window.location.href = 'dashboard.html';
-            }, 1200);
+            try {
+                // Construct redirect URL
+                const redirectPath = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + '/dashboard.html';
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: redirectPath
+                    }
+                });
+                if (error) throw error;
+            } catch (err) {
+                console.error('Google Sign In error:', err);
+                showToast('Google login failed. Trying simulation mode...', 'error');
+                
+                // Fallback simulation for offline/local testing
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1200);
+            }
         });
+    }
+
+    // Check for openAuth query param
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('openAuth') === 'true') {
+        openModal();
     }
 
     // 7. Interactive Hero Mockup Simulator (updates names dynamically from Claim bar input)
