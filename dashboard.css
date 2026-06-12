@@ -3,7 +3,7 @@
    ========================================================================== */
 
 :root {
-    --bg-primary: #FAF9F7;
+    --bg-primary: #F9F9F8;
     --bg-white: #FFFFFF;
     --text-main: #1A1A1A;
     --text-sec: #666666;
@@ -120,10 +120,11 @@ body {
 }
 
 .menu-item.active {
-    background: rgba(18, 18, 18, 0.03);
-    color: var(--text-main);
-    border-left-color: var(--accent-gold);
+    background: #121212 !important;
+    color: #FFFFFF !important;
+    border-left: none !important;
     font-weight: 600;
+    box-shadow: 0 4px 12px rgba(18, 18, 18, 0.1);
 }
 
 .badge-count {
@@ -748,22 +749,13 @@ tr:last-child td {
 }
 
 @media (max-width: 768px) {
+    /* Hide sidebar and toggle on mobile completely */
     .sidebar {
-        position: fixed;
-        left: -260px;
-        top: 0;
-        bottom: 0;
-        z-index: 200;
-        transition: var(--transition);
-        box-shadow: var(--shadow-lg);
-    }
-    
-    .sidebar.open {
-        left: 0;
+        display: none !important;
     }
     
     .mobile-toggle {
-        display: block;
+        display: none !important;
     }
     
     .stats-grid {
@@ -782,4 +774,63 @@ tr:last-child td {
     .content-area {
         padding: 24px 16px;
     }
+    
+    .main-content {
+        padding-bottom: 100px !important;
+    }
+    
+    /* Floating circular bottom nav */
+    .mobile-bottom-nav {
+        display: flex !important;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 32px);
+        max-width: 440px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(14px);
+        padding: 8px 12px;
+        border-radius: var(--radius-full);
+        box-shadow: 0 10px 30px rgba(18, 18, 18, 0.08);
+        z-index: 9999;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    
+    .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: rgba(18, 18, 18, 0.6);
+        text-decoration: none;
+        font-size: 0.7rem;
+        font-weight: 500;
+        transition: var(--transition);
+        width: 64px;
+        height: 48px;
+        border-radius: var(--radius-full);
+    }
+    
+    .mobile-nav-item i {
+        font-size: 1.15rem;
+    }
+    
+    .mobile-nav-item:hover {
+        color: #121212;
+    }
+    
+    .mobile-nav-item.active {
+        color: #FFFFFF;
+        background: #121212;
+        box-shadow: 0 4px 12px rgba(18, 18, 18, 0.15);
+    }
+}
+
+/* Hide floating bar on desktop */
+.mobile-bottom-nav {
+    display: none;
 }

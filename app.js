@@ -334,12 +334,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (error) throw error;
             } catch (err) {
                 console.error('Google Sign In error:', err);
-                showToast('Google login failed. Trying simulation mode...', 'error');
+                showToast('Google login failed: ' + (err.message || 'connection failed'), 'error');
                 
-                // Fallback simulation for offline/local testing
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1200);
+                googleLoginBtn.replaceChildren();
+                const img = document.createElement('img');
+                img.src = 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg';
+                img.alt = 'Google Logo';
+                img.className = 'google-icon';
+                googleLoginBtn.appendChild(img);
+                googleLoginBtn.appendChild(document.createTextNode(' Sign in with Google'));
+                googleLoginBtn.style.pointerEvents = 'auto';
             }
         });
     }

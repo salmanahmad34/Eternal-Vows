@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Redirect settings.html immediately as it is disabled
+    if (window.location.pathname.endsWith('settings.html')) {
+        window.location.href = 'dashboard.html';
+        return;
+    }
     
     // --- 0. Luxury Splash Screen Logic ---
     const splash = document.getElementById('splash-screen');
@@ -115,8 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function initAuth() {
         if (!supabaseClient) {
-            console.warn('Supabase client not available. Running in local fallback mode.');
-            setupDashboard();
+            console.error('Supabase client not available.');
+            window.location.href = 'index.html?openAuth=true';
             return;
         }
         
@@ -141,13 +146,56 @@ document.addEventListener('DOMContentLoaded', () => {
             setupDashboard();
         } catch (err) {
             console.error('Session guard error:', err);
-            setupDashboard();
+            window.location.href = 'index.html?openAuth=true';
         }
     }
     
     initAuth();
 
     function setupDashboard() {
+        // Inject Mobile Bottom Nav dynamically
+        function injectMobileBottomNav() {
+            if (document.getElementById('mobile-bottom-nav')) return;
+            
+            const nav = document.createElement('nav');
+            nav.id = 'mobile-bottom-nav';
+            nav.className = 'mobile-bottom-nav';
+            
+            const items = [
+                { href: 'dashboard.html', icon: 'fas fa-home', label: 'Home' },
+                { href: 'create.html', icon: 'fas fa-magic', label: 'Create' },
+                { href: 'invitations.html', icon: 'fas fa-envelope-open-text', label: 'Invites' },
+                { href: 'profile.html', icon: 'fas fa-user', label: 'Profile' }
+            ];
+            
+            const path = window.location.pathname;
+            const pageName = path.substring(path.lastIndexOf('/') + 1) || 'dashboard.html';
+            
+            items.forEach(item => {
+                const a = document.createElement('a');
+                a.href = item.href;
+                a.className = 'mobile-nav-item';
+                
+                if (pageName === item.href || (pageName === '' && item.href === 'dashboard.html')) {
+                    a.classList.add('active');
+                }
+                
+                const icon = document.createElement('i');
+                icon.className = item.icon;
+                
+                const label = document.createElement('span');
+                label.textContent = item.label;
+                
+                a.appendChild(icon);
+                a.appendChild(label);
+                nav.appendChild(a);
+            });
+            
+            document.body.appendChild(nav);
+        }
+        
+        injectMobileBottomNav();
+
         // --- 1. Sidebar Mobile Toggle ---
         const toggleBtn = document.getElementById('mobile-toggle');
         const sidebar = document.getElementById('sidebar');
