@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priya & Arjun's Wedding</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="index.css">
+    
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: var(--font-body);
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1544244199-3112fc751a0d?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .public-navbar {
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .brand-logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .invite-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 40px 20px;
+            text-align: center;
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            flex: 1;
+        }
+
+        .countdown-section {
+            margin-bottom: 50px;
+        }
+
+        .countdown-title {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-tertiary);
+            margin-bottom: 20px;
+        }
+
+        .countdown-timer {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            color: var(--accent-gold);
+            line-height: 1;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .countdown-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+            margin: 40px 0;
+        }
+
+        .invite-details h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin: 20px 0;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .invite-details p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 15px 0;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .highlight-date {
+            font-weight: 600;
+            color: var(--accent-gold);
+            font-size: 1.2rem !important;
+            margin: 30px 0 !important;
+        }
+
+        .venue-details {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 20px 0;
+            margin: 30px 0;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .custom-message {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin: 40px 0;
+        }
+
+        .share-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 50px;
+        }
+
+        .share-btn {
+            padding: 16px;
+            border-radius: var(--radius-full);
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            border: none;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        .btn-copy {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-copy:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .countdown-timer { font-size: 3rem; }
+            .invite-details h2 { font-size: 2.2rem; }
+            .invite-container { margin: 20px 10px; padding: 30px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="public-navbar">
+        <a href="index.html" class="brand-logo">ETERNAL VOWZ</a>
+    </nav>
+
+    <div class="invite-container">
+        <!-- Countdown -->
+        <div class="countdown-section">
+            <div class="countdown-title">Countdown to our forever</div>
+            <div class="countdown-timer" id="timer">18 Days</div>
+            <div class="countdown-subtitle">until Priya & Arjun's Wedding</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Details -->
+        <div class="invite-details">
+            <p style="font-style: italic;">Together with their parents</p>
+            
+            <h2>Priya<br><span style="font-size: 1.5rem; color: var(--accent-gold); margin: 0 15px;">&</span><br>Arjun</h2>
+            
+            <p>request the honour of your presence<br>at their marriage</p>
+            
+            <p class="highlight-date">Sunday, the 15th of December<br>Two thousand and twenty-four</p>
+            
+            <div class="venue-details">
+                <i class="fas fa-map-marker-alt" style="color: var(--accent-gold); margin-bottom: 10px; font-size: 1.2rem;"></i><br>
+                The Grand Palace<br>
+                New Delhi, India<br>
+                7:00 PM onwards
+            </div>
+            
+            <p class="custom-message">"Join us as we begin forever"</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="share-actions">
+            <button class="share-btn btn-whatsapp" onclick="alert('Opening WhatsApp...')">
+                <i class="fab fa-whatsapp"></i> Share on WhatsApp
+            </button>
+            <button class="share-btn btn-copy" onclick="this.innerHTML='<i class=\'fas fa-check\'></i> Copied!'; setTimeout(()=>this.innerHTML='<i class=\'fas fa-link\'></i> Copy Link', 2000);">
+                <i class="fas fa-link"></i> Copy Link
+            </button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Powered by <a href="index.html">Eternal Vowz</a>
+    </footer>
+
+    <script>
+        // Simple countdown simulator
+        const timer = document.getElementById('timer');
+        let days = 18;
+        setInterval(() => {
+            // In a real app this would calculate exact time difference
+            // Here we just make sure the component exists
+        }, 1000);
+    </script>
+</body>
+</html>
