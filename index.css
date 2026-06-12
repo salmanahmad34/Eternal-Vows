@@ -1773,7 +1773,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: drop-shadow(0 4px 12px rgba(183, 110, 121, 0.15));
+    filter: drop-shadow(0 4px 12px rgba(18, 18, 18, 0.08));
     animation: floatingRings 4s ease-in-out infinite;
 }
 
@@ -1796,8 +1796,8 @@ p {
     animation: drawRingGold 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.ring-rose {
-    stroke: url(#rosegold-grad);
+.ring-dark {
+    stroke: url(#dark-grad);
     animation: drawRingRose 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     animation-delay: 0.3s;
 }
@@ -1814,9 +1814,9 @@ p {
 }
 
 .splash-logo {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 2.8rem;
-    font-weight: 400;
+    font-weight: 700;
     letter-spacing: 3px;
     color: #1a1a1a;
     margin-bottom: 15px;
@@ -1829,10 +1829,10 @@ p {
 .splash-tagline {
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: #8A4F58;
+    color: #605F5B;
     margin-bottom: 45px;
     opacity: 0;
     transform: translateY(12px);
@@ -1858,7 +1858,7 @@ p {
     left: 0;
     height: 100%;
     width: 0;
-    background: linear-gradient(90deg, #D4AF37, #B76E79);
+    background: linear-gradient(90deg, #121212, #D4AF37);
     animation: loadBar 1.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     animation-delay: 1.6s;
 }
@@ -2019,6 +2019,11 @@ p {
 @media (max-width: 768px) {
     .comparison-table-wrapper {
         padding: 16px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .comparison-table {
+        min-width: 580px;
     }
     .comparison-table th, 
     .comparison-table td {
