@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'b2', pageId: 'home', folderId: null, type: 'link', title: 'My Online Shop 🛍️', url: 'https://shop.creator.com', visible: true },
         { id: 'b3', pageId: 'home', folderId: 'folder-socials', type: 'link', title: 'Follow on Instagram 📸', url: 'https://instagram.com/creator', visible: true },
         { id: 'b4', pageId: 'home', folderId: 'folder-socials', type: 'link', title: 'Watch on TikTok 🎬', url: 'https://tiktok.com/@creator', visible: true },
-        { id: 'b5', pageId: 'home', folderId: null, type: 'music', title: 'Listen to New Single 🎵', url: 'Midnight Wanderer', visible: true },
+
         { id: 'b6', pageId: 'home', folderId: null, type: 'video', title: 'Behind the Scenes Vlog 📹', url: 'https://www.youtube.com/watch?v=BTSvlog', visible: true },
         { id: 'b7', pageId: 'home', folderId: null, type: 'form', title: 'Newsletter Signup ✉️', url: '', visible: true }
     ];
@@ -122,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'link': icon.className = 'fas fa-link'; break;
                 case 'image': icon.className = 'fas fa-image'; break;
                 case 'video': icon.className = 'fab fa-youtube'; break;
-                case 'music': icon.className = 'fas fa-music'; break;
                 case 'form': icon.className = 'fas fa-envelope'; break;
                 case 'header': icon.className = 'fas fa-heading'; break;
             }
@@ -145,11 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
             inputsDiv.appendChild(titleInput);
             
             // URL Input (only for Link, Video, Music)
-            if (block.type === 'link' || block.type === 'video' || block.type === 'music') {
+            if (block.type === 'link' || block.type === 'video') {
                 const urlInput = document.createElement('input');
                 urlInput.type = 'text';
                 urlInput.value = block.url;
-                urlInput.placeholder = block.type === 'music' ? 'Song Name' : 'Redirect URL';
+                urlInput.placeholder = 'Redirect URL';
                 urlInput.className = 'input-sub-val';
                 urlInput.addEventListener('input', (e) => {
                     block.url = e.target.value;
@@ -381,34 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 blockEl.appendChild(playBtn);
                 break;
                 
-            case 'music':
-                blockEl = document.createElement('div');
-                blockEl.className = 'mock-music-block';
-                
-                const disk = document.createElement('div');
-                disk.className = 'music-disk';
-                blockEl.appendChild(disk);
-                
-                const details = document.createElement('div');
-                details.className = 'music-details';
-                
-                const titleText = document.createElement('strong');
-                titleText.textContent = block.title || 'Song Title';
-                details.appendChild(titleText);
-                
-                const artistText = document.createElement('span');
-                artistText.textContent = block.url || 'Artist Name';
-                details.appendChild(artistText);
-                blockEl.appendChild(details);
-                
-                const playerIcon = document.createElement('div');
-                playerIcon.className = 'music-player-icon';
-                const volumeIcon = document.createElement('i');
-                volumeIcon.className = 'fas fa-volume-up';
-                playerIcon.appendChild(volumeIcon);
-                blockEl.appendChild(playerIcon);
-                break;
-                
             case 'form':
                 blockEl = document.createElement('div');
                 blockEl.className = 'mock-form-block';
@@ -588,7 +559,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'link': title = 'Custom Redirect Link 🔗'; url = 'https://link.com'; break;
                 case 'image': title = 'Banner Image Layout 🖼️'; break;
                 case 'video': title = 'Watch My Video 🎬'; url = 'https://youtube.com'; break;
-                case 'music': title = 'New Song Release 🎵'; url = 'Midnight Wanderer'; break;
+
                 case 'form': title = 'Get in Touch ✉️'; break;
                 case 'header': title = 'Section Divider Label'; break;
             }

@@ -115,6 +115,33 @@ p {
     box-shadow: 0 4px 12px rgba(18, 18, 18, 0.08);
 }
 
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #ffffff;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.btn-google:hover {
+    background: #fafaf9;
+    box-shadow: var(--shadow-sm);
+}
+
+.google-icon {
+    width: 20px;
+    height: 20px;
+}
+
 .btn-secondary {
     background-color: transparent;
     color: var(--text-main);
@@ -1333,8 +1360,9 @@ p {
 }
 
 .price-card.highlighted {
-    border-color: var(--text-main);
-    box-shadow: var(--shadow-hover);
+    border-color: var(--accent-gold);
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+    border-width: 2px;
 }
 
 .price-card.disabled {
@@ -1372,8 +1400,9 @@ p {
 }
 
 .price-header h2 {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     font-weight: 800;
+    margin: 15px 0 5px 0;
 }
 
 .price-sub {
@@ -1388,6 +1417,7 @@ p {
     flex-direction: column;
     gap: 16px;
     margin-bottom: 40px;
+    padding: 0;
 }
 
 .features-list li {
@@ -1399,8 +1429,10 @@ p {
 }
 
 .features-list li i {
-    color: var(--text-main);
-    font-size: 0.85rem;
+    color: #10B981;
+    font-size: 0.9rem;
+    width: 20px;
+    text-align: center;
 }
 
 .price-footer {
@@ -2211,4 +2243,41 @@ p {
 @keyframes toastOut {
     from { transform: translateY(0) scale(1); opacity: 1; }
     to { transform: translateY(10px) scale(0.95); opacity: 0; }
+}
+
+/* Google Sign In Button */
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 12px;
+    outline: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-google:hover {
+    background: #F8F9FA;
+    border-color: #DADCE0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.btn-google:active {
+    background: #E8EAED;
+    box-shadow: none;
+}
+
+.google-icon {
+    width: 20px;
+    height: 20px;
 }

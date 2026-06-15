@@ -20,8 +20,27 @@
     <!-- Supabase & Init -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-init.js" defer></script>
-    
+    <script src="templates.js" defer></script>
     <script src="dashboard.js" defer></script>
+    <style>
+        .pricing-tab {
+            background: transparent;
+            color: var(--text-sec);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .pricing-tab.active {
+            background: var(--accent-gold);
+            color: white;
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-sm);
+        }
+    </style>
 </head>
 <body>
 
@@ -40,7 +59,7 @@
                 </a>
                 <a href="invitations.html" class="menu-item">
                     <i class="fas fa-envelope-open-text"></i> Invitations
-                    <span class="badge-count">3</span>
+                    <span class="badge-count" style="display: none;">0</span>
                 </a>
                 <a href="profile.html" class="menu-item">
                     <i class="fas fa-user"></i> Profile
@@ -58,17 +77,36 @@
         <main class="main-content">
             <!-- Topbar -->
             <header class="topbar">
-                <button class="mobile-toggle" id="mobile-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search templates...">
+                <div class="topbar-left">
+                    <button class="mobile-toggle" id="mobile-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="dashboard.html" class="topbar-logo">
+                        <img src="favicon.svg" alt="EV Logo">
+                        <span>Eternal Vowz</span>
+                    </a>
                 </div>
-                <div class="user-profile">
+                <div class="user-profile" id="user-profile-menu">
+                    <span class="user-name">Hello, User</span>
                     <div class="user-avatar"></div>
-                    <span class="user-name">Priya S.</span>
                     <i class="fas fa-chevron-down" style="font-size: 0.8rem; color: var(--text-sec);"></i>
+                    <!-- Profile Dropdown -->
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-header">
+                            <span class="dropdown-user-email">user@email.com</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i> View Profile
+                        </a>
+                        <a href="dashboard.html" class="dropdown-item">
+                            <i class="fas fa-chart-line"></i> Dashboard
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout-btn text-danger">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
                 </div>
             </header>
 
@@ -96,22 +134,42 @@
                 <div class="step-content active" id="step1">
                     <h2 style="font-family: var(--font-body); margin-bottom: 24px; font-size: 1.25rem;">Select a Template</h2>
                     
+                    <!-- Category Tab Switcher -->
+                    <div style="display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 12px;">
+                        <button type="button" class="pricing-tab active" data-category="standard">Standard Designs (₹39)</button>
+                        <button type="button" class="pricing-tab" data-category="premium">Premium Designs (₹79)</button>
+                    </div>
+
                     <div class="template-grid">
-                        <div class="template-box selected">
-                            <div class="template-preview-img" style="background-image: url('https://images.unsplash.com/photo-1544244199-3112fc751a0d?auto=format&fit=crop&w=400&q=80')"></div>
-                            <h3 style="font-size: 1.1rem;">Dark Luxe Premium</h3>
+                        <div class="template-box selected" data-template-id="royal-gold-burgundy" data-category="standard">
+                            <div class="template-preview-img" style="background-image: url('https://raw.githubusercontent.com/salmanahmad34/Assets/main/copilot_image_1775682746342.jpeg')"></div>
+                            <h3 style="font-size: 1.1rem;">Royal Gold & Burgundy</h3>
+                            <small style="color: var(--text-sec); display: block; margin-top: 4px; font-size: 0.75rem;">Click again to preview</small>
                         </div>
-                        <div class="template-box">
-                            <div class="template-preview-img" style="background-image: url('https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&w=400&q=80')"></div>
-                            <h3 style="font-size: 1.1rem;">Minimalist White</h3>
+                        <div class="template-box" data-template-id="midnight-luxury" data-category="standard">
+                            <div class="template-preview-img" style="background-image: url('https://raw.githubusercontent.com/salmanahmad34/Assets/main/file_0000000052b4720b8c09f708799f0fa6.png')"></div>
+                            <h3 style="font-size: 1.1rem;">Midnight Luxury</h3>
+                            <small style="color: var(--text-sec); display: block; margin-top: 4px; font-size: 0.75rem;">Click again to preview</small>
                         </div>
-                        <div class="template-box">
-                            <div class="template-preview-img" style="background-image: url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=400&q=80')"></div>
-                            <h3 style="font-size: 1.1rem;">Floral Soft</h3>
+                        <div class="template-box" data-template-id="royal-heritage" data-category="standard">
+                            <div class="template-preview-img" style="background-image: url('https://raw.githubusercontent.com/salmanahmad34/Assets/main/file_000000007b28720b832332fa24ffdeb7.png')"></div>
+                            <h3 style="font-size: 1.1rem;">Royal Heritage</h3>
+                            <small style="color: var(--text-sec); display: block; margin-top: 4px; font-size: 0.75rem;">Click again to preview</small>
                         </div>
-                        <div class="template-box">
-                            <div class="template-preview-img" style="background-image: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=400&q=80')"></div>
-                            <h3 style="font-size: 1.1rem;">Modern Geometric</h3>
+                        <div class="template-box" data-template-id="blushing-blossom" data-category="standard">
+                            <div class="template-preview-img" style="background-image: url('https://raw.githubusercontent.com/salmanahmad34/Assets/main/file_0000000031dc720bbe1b0df497681e88.png')"></div>
+                            <h3 style="font-size: 1.1rem;">Blushing Blossom</h3>
+                            <small style="color: var(--text-sec); display: block; margin-top: 4px; font-size: 0.75rem;">Click again to preview</small>
+                        </div>
+                        <div class="template-box" data-template-id="modern-emerald" data-category="standard">
+                            <div class="template-preview-img" style="background-image: url('https://raw.githubusercontent.com/salmanahmad34/Assets/main/copilot_image_1775682687205.jpeg')"></div>
+                            <h3 style="font-size: 1.1rem;">Modern Emerald</h3>
+                            <small style="color: var(--text-sec); display: block; margin-top: 4px; font-size: 0.75rem;">Click again to preview</small>
+                        </div>
+                        <div class="template-box" data-template-id="royal-union-scratch" data-category="premium" style="display: none;">
+                            <div class="template-preview-img" style="background-image: url('https://github.com/salmanahmad34/Assets/blob/main/Gemini_Generated_Image_z50i56z50i56z50i.png?raw=true')"></div>
+                            <h3 style="font-size: 1.1rem;">Royal Union (Scratch Card)</h3>
+                            <small style="color: var(--text-sec); display: block; margin-top: 4px; font-size: 0.75rem;">Click again to preview</small>
                         </div>
                     </div>
 
@@ -122,48 +180,127 @@
 
                 <!-- Step 2: Add Details -->
                 <div class="step-content" id="step2">
-                    <div class="form-card">
-                        <h2 style="font-family: var(--font-body); margin-bottom: 24px; font-size: 1.25rem;">Couple Information</h2>
+                    <div class="form-card" style="max-width: 800px;">
+                        <h2 style="font-family: var(--font-body); margin-bottom: 24px; font-size: 1.25rem;">Event & Couple Information</h2>
                         
                         <div class="split-layout" style="margin-bottom: 24px;">
                             <div class="form-group">
                                 <label>Groom's Name</label>
-                                <input type="text" id="groomName" class="form-control" placeholder="e.g. Arjun Patel">
+                                <input type="text" id="groomName" class="form-control" placeholder="e.g. Ayaan" required>
                             </div>
                             <div class="form-group">
                                 <label>Bride's Name</label>
-                                <input type="text" id="brideName" class="form-control" placeholder="e.g. Priya Sharma">
+                                <input type="text" id="brideName" class="form-control" placeholder="e.g. Zoya" required>
                             </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label>Ceremony / Event Name</label>
+                            <input type="text" id="ceremonyName" class="form-control" placeholder="e.g. Nikkah Ceremony, Wedding Reception" required>
                         </div>
 
                         <div class="split-layout" style="margin-bottom: 24px;">
                             <div class="form-group">
                                 <label>Wedding Date</label>
-                                <input type="date" id="weddingDate" class="form-control">
+                                <input type="date" id="weddingDate" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label>Wedding Time (Optional)</label>
-                                <input type="time" class="form-control">
+                                <label>Wedding Time</label>
+                                <input type="time" id="weddingTime" class="form-control" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Invite Message (Optional)</label>
-                            <textarea id="inviteMessage" class="form-control" placeholder="Join us as we begin forever..."></textarea>
+                        <h2 style="font-family: var(--font-body); margin: 32px 0 24px; font-size: 1.25rem;">Venue Details</h2>
+                        
+                        <div class="split-layout" style="margin-bottom: 24px;">
+                            <div class="form-group">
+                                <label>Venue Name</label>
+                                <input type="text" id="venueName" class="form-control" placeholder="e.g. Grand Palace Banquet Hall" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Venue Location</label>
+                                <input type="text" id="venueLocation" class="form-control" placeholder="e.g. Lucknow, Uttar Pradesh" required>
+                            </div>
+                        </div>
+
+                        <h2 style="font-family: var(--font-body); margin: 32px 0 24px; font-size: 1.25rem;">Message & Prayers</h2>
+
+                        <div class="form-group" style="margin-bottom: 24px;">
+                            <label>Invite Message / Welcome Note</label>
+                            <textarea id="inviteMessage" class="form-control" placeholder="e.g. We request the honor of your presence and prayers on our special day." required></textarea>
                             <small style="color: var(--text-sec); display: block; text-align: right; margin-top: 4px;">0/200 chars</small>
                         </div>
 
-                        <h2 style="font-family: var(--font-body); margin: 32px 0 24px; font-size: 1.25rem;">Customization</h2>
-                        <div style="display: flex; gap: 24px; margin-bottom: 24px;">
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                                <input type="checkbox" checked> Change Colors
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                                <input type="checkbox"> Change Fonts
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                                <input type="checkbox"> Add Background
-                            </label>
+                        <!-- Conditional Premium Template Fields -->
+                        <div id="premium-fields" style="display: none; border-top: 1px solid var(--border-color); padding-top: 24px; margin-top: 24px;">
+                            <h2 style="font-family: var(--font-body); margin: 0 0 24px; font-size: 1.25rem; color: var(--accent-gold);">Premium Template Customizations</h2>
+                            
+                            <div class="split-layout" style="margin-bottom: 24px;">
+                                <div class="form-group">
+                                    <label>Quranic Verse / Top Subtext</label>
+                                    <input type="text" id="quranVerse" class="form-control" placeholder='e.g. "And We created you in pairs" (78:8)'>
+                                </div>
+                                <div class="form-group">
+                                    <label>Names Section Subtitle</label>
+                                    <input type="text" id="inviteSubtitle" class="form-control" placeholder="e.g. invite you to celebrate their wedding">
+                                </div>
+                            </div>
+
+                            <h3 style="font-family: var(--font-body); margin: 24px 0 16px; font-size: 1.1rem;">Valima Reception / Second Ceremony Details</h3>
+                            <div class="form-group" style="margin-bottom: 24px;">
+                                <label>Second Ceremony Name</label>
+                                <input type="text" id="ceremony2Name" class="form-control" placeholder="e.g. Valima Reception">
+                            </div>
+
+                            <div class="split-layout" style="margin-bottom: 24px;">
+                                <div class="form-group">
+                                    <label>Second Ceremony Date</label>
+                                    <input type="date" id="ceremony2Date" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Second Ceremony Time</label>
+                                    <input type="time" id="ceremony2Time" class="form-control">
+                                </div>
+                            </div>
+
+                            <h3 style="font-family: var(--font-body); margin: 24px 0 16px; font-size: 1.1rem;">Third Ceremony Details</h3>
+                            <div class="form-group" style="margin-bottom: 24px;">
+                                <label>Third Ceremony Name</label>
+                                <input type="text" id="ceremony3Name" class="form-control" placeholder="e.g. Sangeet Ceremony">
+                            </div>
+
+                            <div class="split-layout" style="margin-bottom: 24px;">
+                                <div class="form-group">
+                                    <label>Third Ceremony Date</label>
+                                    <input type="date" id="ceremony3Date" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Third Ceremony Time</label>
+                                    <input type="time" id="ceremony3Time" class="form-control">
+                                </div>
+                            </div>
+
+                            <h3 style="font-family: var(--font-body); margin: 24px 0 16px; font-size: 1.1rem;">Fourth Ceremony Details</h3>
+                            <div class="form-group" style="margin-bottom: 24px;">
+                                <label>Fourth Ceremony Name</label>
+                                <input type="text" id="ceremony4Name" class="form-control" placeholder="e.g. Mehendi Ceremony">
+                            </div>
+
+                            <div class="split-layout" style="margin-bottom: 24px;">
+                                <div class="form-group">
+                                    <label>Fourth Ceremony Date</label>
+                                    <input type="date" id="ceremony4Date" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Fourth Ceremony Time</label>
+                                    <input type="time" id="ceremony4Time" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 24px;">
+                                <label>RSVP / Blessings Section Quote</label>
+                                <textarea id="rsvpQuote" class="form-control" placeholder="e.g. A night of joy, with loved ones near..."></textarea>
+                            </div>
                         </div>
 
                         <div class="actions-bar">
@@ -178,62 +315,33 @@
                     <div class="split-layout">
                         <!-- Left: Live Preview -->
                         <div style="background: var(--bg-white); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center;">
-                            <div class="phone-mockup">
-                                <div class="phone-speaker"></div>
-                                <div class="preview-content">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                                        <div class="music-note-icon"><i class="fas fa-music"></i></div>
-                                        <span style="font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; opacity: 0.7;">WEDDING INVITATION</span>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;">
-                                        <h4 style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 400; letter-spacing: 1px; color: var(--accent-gold-light); margin-bottom: 15px;">Eternal Vowz</h4>
-                                        <p style="font-size: 0.75rem; margin-bottom: 15px; font-style: italic; opacity: 0.8;">Together with their families</p>
-                                        
-                                        <h2 id="preview-names" style="font-family: var(--font-heading); font-size: 1.8rem; line-height: 1.2; font-weight: 400; margin: 10px 0;">Groom <br>&<br> Bride</h2>
-                                        
-                                        <p style="font-size: 0.75rem; margin: 15px 0; opacity: 0.8;">request the pleasure of your company at their wedding</p>
-                                        
-                                        <p id="preview-date" style="font-weight: 600; color: var(--accent-gold-light); margin-bottom: 4px; font-size: 0.85rem;">Date TBD</p>
-                                        <p style="font-size: 0.75rem; margin-bottom: 20px; opacity: 0.8;">7:00 PM onwards</p>
-                                        
-                                        <p style="font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0; width: 100%; opacity: 0.9;">At the Grand Palace Venue, Udaipur</p>
-                                        
-                                        <p id="preview-message" style="font-size: 0.8rem; font-style: italic; margin-top: 15px; opacity: 0.9;">Join us as we begin forever</p>
-                                        
-                                        <div style="margin-top: 25px; background: rgba(212, 175, 55, 0.08); padding: 12px; border-radius: 12px; border: 1px solid rgba(212, 175, 55, 0.2); width: 100%;">
-                                            <p style="font-size: 0.75rem; margin: 0; font-weight: 600;">18 Days until the celebration!</p>
-                                        </div>
-                                    </div>
+                            <div class="phone-mockup" style="height: 640px; width: 330px; display: flex; flex-direction: column; overflow: hidden; background: #111; padding: 12px 12px 24px; border-radius: 40px; border: 4px solid #2a2a2a; box-shadow: var(--shadow-lg);">
+                                <div class="phone-speaker" style="height: 6px; width: 60px; background: #333; margin: 4px auto 12px; border-radius: 3px; flex-shrink: 0;"></div>
+                                <div style="flex: 1; border-radius: 24px; overflow: hidden; background: #FFF; width: 100%; height: 100%;">
+                                    <iframe id="live-preview-iframe" style="width: 100%; height: 100%; border: none;"></iframe>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Right: Share Options -->
-                        <div>
+                        <!-- Right: Action Options -->
+                        <div style="display: flex; flex-direction: column; justify-content: center;">
                             <div class="form-card" style="margin: 0;">
-                                <h2 style="font-family: var(--font-body); margin-bottom: 24px; font-size: 1.25rem;">Share Options</h2>
+                                <h2 style="font-family: var(--font-body); margin-bottom: 16px; font-size: 1.5rem;">Looking Good!</h2>
+                                <p style="color: var(--text-sec); margin-bottom: 24px; line-height: 1.6;">Your invitation preview is ready. You can review it on the left screen. If you're happy with it, you can proceed to create and activate your invitation for just ₹39.</p>
                                 
-                                <button class="btn-secondary btn-block" style="margin-bottom: 16px; justify-content: flex-start; gap: 12px;">
-                                    <i class="fas fa-link"></i> Copy Invitation Link
-                                </button>
-                                
-                                <button class="btn-block" style="background: #25D366; color: white; border: none; padding: 12px 24px; border-radius: var(--radius-full); font-weight: 500; font-family: var(--font-body); display: flex; align-items: center; justify-content: flex-start; gap: 12px; margin-bottom: 16px; cursor: pointer; transition: var(--transition);">
-                                    <i class="fab fa-whatsapp"></i> Share on WhatsApp
-                                </button>
-                                
-                                <button class="btn-secondary btn-block" style="margin-bottom: 32px; justify-content: flex-start; gap: 12px; opacity: 0.5; cursor: not-allowed;" disabled>
-                                    <i class="fas fa-envelope"></i> Share via Email <span class="badge-count" style="margin-left:auto;">Coming Soon</span>
-                                </button>
-
                                 <div style="background: #FAFAF9; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 32px;">
-                                    <h4 style="font-size: 0.9rem; margin-bottom: 8px;">Countdown Preview</h4>
-                                    <p style="color: var(--text-sec); font-size: 0.85rem; margin-bottom: 12px;">Guests who open the link will see:</p>
-                                    <p style="font-weight: 600; color: var(--accent-gold);">"18 days until the wedding"</p>
+                                    <h4 style="font-size: 0.9rem; margin-bottom: 8px;">What happens next?</h4>
+                                    <ul style="color: var(--text-sec); font-size: 0.85rem; padding-left: 16px; margin: 0; line-height: 1.5;">
+                                        <li>You will be redirected to secure checkout</li>
+                                        <li>Your invitation link will be instantly activated</li>
+                                        <li>You can share it on WhatsApp & Email</li>
+                                        <li>You can track unique views and RSVPs on Dashboard</li>
+                                    </ul>
                                 </div>
 
-                                <div class="actions-bar">
-                                    <button class="btn-secondary prev-step"><i class="fas fa-edit"></i> Edit Details</button>
-                                    <a href="checkout.html" class="btn-primary">Create — ₹39</a>
+                                <div class="actions-bar" style="flex-direction: column; gap: 16px;">
+                                    <a href="checkout.html" class="btn-primary" style="width: 100%; text-align: center; justify-content: center; font-size: 1.1rem; padding: 14px;">Proceed to Payment — ₹39</a>
+                                    <button class="btn-secondary prev-step" style="width: 100%; justify-content: center;"><i class="fas fa-edit"></i> Make Changes</button>
                                 </div>
                             </div>
                         </div>
@@ -242,6 +350,18 @@
 
             </div>
         </main>
+    </div>
+
+    <!-- Template Preview Modal -->
+    <div id="template-preview-modal" class="modal-backdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); z-index: 10000; justify-content: center; align-items: center; padding: 20px;">
+        <div class="modal-container" style="background: #FFF; width: 100%; max-width: 440px; height: 85vh; border-radius: 24px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+            <button id="close-template-preview" style="position: absolute; top: 16px; right: 16px; z-index: 10002; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0,0,0,0.1); width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="template-preview-frame-container" style="flex: 1; width: 100%; height: 100%;">
+                <iframe id="template-preview-iframe" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+        </div>
     </div>
 
 </body>

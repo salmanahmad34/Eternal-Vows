@@ -31,7 +31,7 @@
                 </a>
                 <a href="invitations.html" class="menu-item">
                     <i class="fas fa-envelope-open-text"></i> Invitations
-                    <span class="badge-count">3</span>
+                    <span class="badge-count" style="display: none;">0</span>
                 </a>
                 <a href="profile.html" class="menu-item active">
                     <i class="fas fa-user"></i> Profile
@@ -46,12 +46,36 @@
 
         <main class="main-content">
             <header class="topbar">
-                <button class="mobile-toggle" id="mobile-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="user-profile">
+                <div class="topbar-left">
+                    <button class="mobile-toggle" id="mobile-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="dashboard.html" class="topbar-logo">
+                        <img src="favicon.svg" alt="EV Logo">
+                        <span>Eternal Vowz</span>
+                    </a>
+                </div>
+                <div class="user-profile" id="user-profile-menu">
+                    <span class="user-name">Hello, User</span>
                     <div class="user-avatar"></div>
-                    <span class="user-name">Priya S.</span>
+                    <i class="fas fa-chevron-down" style="font-size: 0.8rem; color: var(--text-sec);"></i>
+                    <!-- Profile Dropdown -->
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-header">
+                            <span class="dropdown-user-email">user@email.com</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i> View Profile
+                        </a>
+                        <a href="dashboard.html" class="dropdown-item">
+                            <i class="fas fa-chart-line"></i> Dashboard
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout-btn text-danger">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
                 </div>
             </header>
 
@@ -62,22 +86,22 @@
 
                 <div class="dashboard-grid">
                     <div class="panel">
-                        <h3>Your Profile <button class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">Edit Profile</button></h3>
+                        <h3>Your Profile <button class="btn-secondary" id="edit-profile-btn" style="padding: 8px 16px; font-size: 0.85rem;">Edit Profile</button></h3>
                         <div style="display: flex; align-items: center; gap: 24px; margin-bottom: 30px;">
-                            <div class="user-avatar" style="width: 80px; height: 80px;"></div>
+                            <div class="user-avatar" id="profile-page-avatar" style="width: 80px; height: 80px; background: var(--accent-gold); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold;">U</div>
                             <div>
-                                <h4 style="font-size: 1.2rem; margin-bottom: 4px;">Priya Sharma</h4>
-                                <p style="color: var(--text-sec); font-size: 0.9rem;">priya@email.com</p>
+                                <h4 id="profile-page-name" style="font-size: 1.2rem; margin-bottom: 4px;">Loading...</h4>
+                                <p id="profile-page-email" style="color: var(--text-sec); font-size: 0.9rem;">loading...</p>
                             </div>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                             <div>
                                 <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Phone Number</p>
-                                <p style="font-weight: 500;">+91 98765 43210</p>
+                                <p id="profile-page-phone" style="font-weight: 500;">Not Provided</p>
                             </div>
                             <div>
                                 <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Account Created</p>
-                                <p style="font-weight: 500;">Jan 15, 2024</p>
+                                <p id="profile-page-date" style="font-weight: 500;">Loading...</p>
                             </div>
                         </div>
                     </div>
@@ -87,15 +111,15 @@
                         <div style="display: flex; flex-direction: column; gap: 16px;">
                             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
                                 <span style="color: var(--text-sec);">Total Invitations</span>
-                                <span style="font-weight: 600;">3</span>
+                                <span id="profile-stat-invites" style="font-weight: 600;">0</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
                                 <span style="color: var(--text-sec);">Total Guests Reached</span>
-                                <span style="font-weight: 600;">127</span>
+                                <span id="profile-stat-views" style="font-weight: 600;">0</span>
                             </div>
                             <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
-                                <span style="color: var(--text-sec);">Total Shares</span>
-                                <span style="font-weight: 600;">156</span>
+                                <span style="color: var(--text-sec);">Total RSVPs</span>
+                                <span id="profile-stat-rsvps" style="font-weight: 600;">0</span>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
                                 <span style="color: var(--text-sec);">Account Status</span>
@@ -106,34 +130,177 @@
                 </div>
 
                 <div class="panel" style="margin-top: 30px;">
-                    <h3>Wedding Information <button class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">Edit Details</button></h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div>
-                            <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Groom's Name</p>
-                            <p style="font-weight: 500;">Arjun Patel</p>
-                        </div>
-                        <div>
-                            <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Bride's Name</p>
-                            <p style="font-weight: 500;">Priya Sharma</p>
-                        </div>
-                        <div>
-                            <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Wedding Date</p>
-                            <p style="font-weight: 500;">December 15, 2024</p>
-                        </div>
-                        <div>
-                            <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Wedding Time</p>
-                            <p style="font-weight: 500;">7:00 PM</p>
-                        </div>
-                        <div style="grid-column: span 2;">
-                            <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Wedding Venue</p>
-                            <p style="font-weight: 500;">The Grand Palace, New Delhi, India</p>
-                        </div>
+                    <h3>Recent Wedding Information</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" id="profile-recent-wedding">
+                        <div style="grid-column: span 2; color: var(--text-sec);">Loading recent invitation...</div>
                     </div>
                 </div>
 
             </div>
         </main>
     </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal-backdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.75); z-index: 10000; justify-content: center; align-items: center; padding: 20px;">
+        <div class="modal-container" style="background: #FFF; width: 100%; max-width: 400px; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--border-color);">
+                <h3 style="margin: 0;">Edit Profile</h3>
+                <button id="close-edit-modal" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-sec);"><i class="fas fa-times"></i></button>
+            </div>
+            <div style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                <div class="form-group">
+                    <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-sec); margin-bottom: 6px; display: block;">Full Name</label>
+                    <input type="text" id="edit-name-input" class="form-control" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+                </div>
+                <div class="form-group">
+                    <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-sec); margin-bottom: 6px; display: block;">Phone Number</label>
+                    <input type="text" id="edit-phone-input" class="form-control" placeholder="e.g. +91 9876543210" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+                </div>
+            </div>
+            <div style="padding: 16px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 12px; background: #FAFAF9;">
+                <button id="cancel-edit-btn" class="btn-secondary" style="padding: 8px 16px;">Cancel</button>
+                <button id="save-edit-btn" class="btn-primary" style="padding: 8px 16px;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (typeof supabaseClient === 'undefined') return;
+            
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session && session.user) {
+                const user = session.user;
+                const name = user.user_metadata?.full_name || user.email.split('@')[0];
+                
+                document.getElementById('profile-page-name').textContent = name;
+                document.getElementById('profile-page-email').textContent = user.email;
+                document.getElementById('profile-page-avatar').textContent = name.charAt(0).toUpperCase();
+                
+                const createdDate = new Date(user.created_at);
+                document.getElementById('profile-page-date').textContent = createdDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                
+                // Fetch stats
+                try {
+                    const { data: invites, error } = await supabaseClient
+                        .from('invitations')
+                        .select('*')
+                        .eq('user_id', user.id)
+                        .order('created_at', { ascending: false });
+                        
+                    if (invites && invites.length > 0) {
+                        document.getElementById('profile-stat-invites').textContent = invites.length;
+                        
+                        let totalViews = invites.reduce((sum, inv) => sum + (inv.views || 0), 0);
+                        document.getElementById('profile-stat-views').textContent = totalViews;
+                        
+                        const inviteIds = invites.map(i => i.id);
+                        const { data: rsvps } = await supabaseClient.from('rsvps').select('id').in('invitation_id', inviteIds);
+                        if (rsvps) {
+                            document.getElementById('profile-stat-rsvps').textContent = rsvps.length;
+                        }
+                        
+                        // Show most recent wedding
+                        const recent = invites[0];
+                        document.getElementById('profile-recent-wedding').innerHTML = `
+                            <div>
+                                <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Groom's Name</p>
+                                <p style="font-weight: 500;">${recent.groom_name}</p>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Bride's Name</p>
+                                <p style="font-weight: 500;">${recent.bride_name}</p>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Wedding Date</p>
+                                <p style="font-weight: 500;">${recent.wedding_date}</p>
+                            </div>
+                            <div style="grid-column: span 2;">
+                                <p style="font-size: 0.85rem; color: var(--text-sec); margin-bottom: 4px;">Wedding Venue</p>
+                                <p style="font-weight: 500;">${recent.venue_name || 'N/A'}</p>
+                            </div>
+                        `;
+                    } else {
+                        document.getElementById('profile-recent-wedding').innerHTML = '<div style="grid-column: span 2; color: var(--text-sec);">No invitations created yet.</div>';
+                    }
+                } catch(e) {
+                    console.error('Error fetching stats:', e);
+                }
+            } else {
+                document.getElementById('profile-page-name').textContent = "Not logged in";
+                document.getElementById('profile-page-email').textContent = "";
+            }
+
+            // Edit Profile Modal Logic
+            const editBtn = document.getElementById('edit-profile-btn');
+            const editModal = document.getElementById('edit-profile-modal');
+            const closeBtn = document.getElementById('close-edit-modal');
+            const cancelBtn = document.getElementById('cancel-edit-btn');
+            const saveBtn = document.getElementById('save-edit-btn');
+            
+            const nameInput = document.getElementById('edit-name-input');
+            const phoneInput = document.getElementById('edit-phone-input');
+            const nameDisplay = document.getElementById('profile-page-name');
+            const phoneDisplay = document.getElementById('profile-page-phone');
+            const avatarDisplay = document.getElementById('profile-page-avatar');
+
+            // Load saved phone if exists in localStorage (mocking db column)
+            const savedPhone = localStorage.getItem('user_phone');
+            if (savedPhone) {
+                phoneDisplay.textContent = savedPhone;
+            }
+
+            const openModal = () => {
+                nameInput.value = nameDisplay.textContent;
+                phoneInput.value = phoneDisplay.textContent !== 'Not Provided' ? phoneDisplay.textContent : '';
+                editModal.style.display = 'flex';
+            };
+
+            const closeModal = () => {
+                editModal.style.display = 'none';
+            };
+
+            editBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+
+            saveBtn.addEventListener('click', async () => {
+                const newName = nameInput.value.trim();
+                const newPhone = phoneInput.value.trim();
+
+                if (!newName) {
+                    alert("Name cannot be empty.");
+                    return;
+                }
+
+                // Update UI immediately
+                nameDisplay.textContent = newName;
+                avatarDisplay.textContent = newName.charAt(0).toUpperCase();
+                
+                if (newPhone) {
+                    phoneDisplay.textContent = newPhone;
+                    localStorage.setItem('user_phone', newPhone);
+                } else {
+                    phoneDisplay.textContent = 'Not Provided';
+                    localStorage.removeItem('user_phone');
+                }
+
+                closeModal();
+
+                // If logged in via Supabase, attempt to update metadata
+                if (session && session.user) {
+                    try {
+                        const { error } = await supabaseClient.auth.updateUser({
+                            data: { full_name: newName }
+                        });
+                        if (error) console.error("Error updating user profile:", error);
+                    } catch (e) {
+                        console.error("Failed to update profile", e);
+                    }
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

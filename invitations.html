@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +10,21 @@
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="dashboard.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    
+
     <!-- Supabase & Init -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-init.js" defer></script>
 
     <script src="dashboard.js" defer></script>
 </head>
+
 <body>
 
     <div class="dashboard-layout">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <a href="index.html" class="brand-logo"><img src="favicon.svg" alt="EV Logo"> Eternal Vowz</a>
-            
+
             <nav class="menu-links">
                 <p class="menu-section-title">Main Navigation</p>
                 <a href="dashboard.html" class="menu-item">
@@ -33,7 +35,7 @@
                 </a>
                 <a href="invitations.html" class="menu-item active">
                     <i class="fas fa-envelope-open-text"></i> Invitations
-                    <span class="badge-count">3</span>
+                    <span class="badge-count" style="display: none;">0</span>
                 </a>
                 <a href="profile.html" class="menu-item">
                     <i class="fas fa-user"></i> Profile
@@ -50,12 +52,36 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="topbar">
-                <button class="mobile-toggle" id="mobile-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="user-profile">
+                <div class="topbar-left">
+                    <button class="mobile-toggle" id="mobile-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a href="dashboard.html" class="topbar-logo">
+                        <img src="favicon.svg" alt="EV Logo">
+                        <span>Eternal Vowz</span>
+                    </a>
+                </div>
+                <div class="user-profile" id="user-profile-menu">
+                    <span class="user-name">Hello, User</span>
                     <div class="user-avatar"></div>
-                    <span class="user-name">Priya S.</span>
+                    <i class="fas fa-chevron-down" style="font-size: 0.8rem; color: var(--text-sec);"></i>
+                    <!-- Profile Dropdown -->
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-header">
+                            <span class="dropdown-user-email">user@email.com</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i> View Profile
+                        </a>
+                        <a href="dashboard.html" class="dropdown-item">
+                            <i class="fas fa-chart-line"></i> Dashboard
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item logout-btn text-danger">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
                 </div>
             </header>
 
@@ -66,13 +92,14 @@
                 </div>
 
                 <div class="table-container">
-                    <div style="padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; gap: 15px; background: #FAFAF9;">
+                    <div
+                        style="padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; gap: 15px; background: #FAFAF9;">
                         <span style="font-weight: 500; font-size: 0.9rem; color: var(--text-sec);">Filter by:</span>
                         <a href="#" style="font-size: 0.9rem; font-weight: 600;">All</a>
                         <a href="#" style="font-size: 0.9rem; color: var(--text-sec);">Active</a>
                         <a href="#" style="font-size: 0.9rem; color: var(--text-sec);">Expired</a>
                     </div>
-                    
+
                     <table>
                         <thead>
                             <tr>
@@ -90,14 +117,19 @@
                                     <div style="font-size: 0.8rem; color: var(--text-sec);">Dark Luxe Template</div>
                                 </td>
                                 <td>Dec 15, 2024</td>
-                                <td><span class="status-badge status-active"><i class="fas fa-check-circle"></i> Active</span></td>
-                                <td><i class="fas fa-link" style="color: var(--text-light); margin-right: 6px;"></i> 42</td>
+                                <td><span class="status-badge status-active"><i class="fas fa-check-circle"></i>
+                                        Active</span></td>
+                                <td><i class="fas fa-link" style="color: var(--text-light); margin-right: 6px;"></i> 42
+                                </td>
                                 <td style="text-align: right;">
-                                    <div class="invite-actions" style="justify-content: flex-end; border: none; padding: 0;">
-                                        <a href="invite.html" target="_blank" class="btn-icon" title="View"><i class="far fa-eye"></i></a>
+                                    <div class="invite-actions"
+                                        style="justify-content: flex-end; border: none; padding: 0;">
+                                        <a href="invite.html" target="_blank" class="btn-icon" title="View"><i
+                                                class="far fa-eye"></i></a>
                                         <button class="btn-icon" title="Edit"><i class="fas fa-pen"></i></button>
                                         <button class="btn-icon" title="Duplicate"><i class="far fa-copy"></i></button>
-                                        <button class="btn-icon" title="Delete" style="color: #ef4444;"><i class="far fa-trash-alt"></i></button>
+                                        <button class="btn-icon" title="Delete" style="color: #ef4444;"><i
+                                                class="far fa-trash-alt"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -107,14 +139,19 @@
                                     <div style="font-size: 0.8rem; color: var(--text-sec);">Minimalist White</div>
                                 </td>
                                 <td>Jan 20, 2025</td>
-                                <td><span class="status-badge status-active"><i class="fas fa-check-circle"></i> Active</span></td>
-                                <td><i class="fas fa-link" style="color: var(--text-light); margin-right: 6px;"></i> 31</td>
+                                <td><span class="status-badge status-active"><i class="fas fa-check-circle"></i>
+                                        Active</span></td>
+                                <td><i class="fas fa-link" style="color: var(--text-light); margin-right: 6px;"></i> 31
+                                </td>
                                 <td style="text-align: right;">
-                                    <div class="invite-actions" style="justify-content: flex-end; border: none; padding: 0;">
-                                        <a href="invite.html" target="_blank" class="btn-icon" title="View"><i class="far fa-eye"></i></a>
+                                    <div class="invite-actions"
+                                        style="justify-content: flex-end; border: none; padding: 0;">
+                                        <a href="invite.html" target="_blank" class="btn-icon" title="View"><i
+                                                class="far fa-eye"></i></a>
                                         <button class="btn-icon" title="Edit"><i class="fas fa-pen"></i></button>
                                         <button class="btn-icon" title="Duplicate"><i class="far fa-copy"></i></button>
-                                        <button class="btn-icon" title="Delete" style="color: #ef4444;"><i class="far fa-trash-alt"></i></button>
+                                        <button class="btn-icon" title="Delete" style="color: #ef4444;"><i
+                                                class="far fa-trash-alt"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -124,12 +161,17 @@
                                     <div style="font-size: 0.8rem; color: var(--text-sec);">Floral Soft</div>
                                 </td>
                                 <td>Aug 10, 2024</td>
-                                <td><span class="status-badge status-expired"><i class="fas fa-times-circle"></i> Expired</span></td>
-                                <td><i class="fas fa-link" style="color: var(--text-light); margin-right: 6px;"></i> 28</td>
+                                <td><span class="status-badge status-expired"><i class="fas fa-times-circle"></i>
+                                        Expired</span></td>
+                                <td><i class="fas fa-link" style="color: var(--text-light); margin-right: 6px;"></i> 28
+                                </td>
                                 <td style="text-align: right;">
-                                    <div class="invite-actions" style="justify-content: flex-end; border: none; padding: 0;">
-                                        <a href="invite.html" target="_blank" class="btn-icon" title="View"><i class="far fa-eye"></i></a>
-                                        <button class="btn-icon" title="Duplicate" style="color: var(--text-sec);"><i class="far fa-copy"></i> Duplicate to Reactivate</button>
+                                    <div class="invite-actions"
+                                        style="justify-content: flex-end; border: none; padding: 0;">
+                                        <a href="invite.html" target="_blank" class="btn-icon" title="View"><i
+                                                class="far fa-eye"></i></a>
+                                        <button class="btn-icon" title="Duplicate" style="color: var(--text-sec);"><i
+                                                class="far fa-copy"></i> Duplicate to Reactivate</button>
                                     </div>
                                 </td>
                             </tr>
@@ -142,4 +184,5 @@
     </div>
 
 </body>
+
 </html>

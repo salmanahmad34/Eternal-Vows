@@ -19,6 +19,7 @@
     <!-- Supabase & Init -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-init.js" defer></script>
+    <script src="templates.js" defer></script>
     
     <style>
         body {
@@ -275,9 +276,12 @@
                         
                     if (error) throw error;
                     if (data) {
-                        // Increment views count (async call in background)
-                        supabaseClient.from('invitations').update({ views: (data.views || 0) + 1 }).eq('id', id).then();
-                        
+                        // Increment views count uniquely (async call in background)
+                        const viewedKey = 'ev_viewed_' + id;
+                        if (!localStorage.getItem(viewedKey)) {
+                            supabaseClient.from('invitations').update({ views: (data.views || 0) + 1 }).eq('id', id).then();
+                            localStorage.setItem(viewedKey, 'true');
+                        }
                         renderInvite(data);
                     }
                 } catch (err) {
@@ -295,102 +299,240 @@
             }
             
             function renderInvite(data) {
-                // Update title
-                document.title = `${data.groom_name} & ${data.bride_name}'s Wedding`;
+                let parsedMsg = data.invite_message || '';
+                let ceremony = data.ceremony_name || '';
+                let venue = data.venue_name || '';
+                let location = data.venue_location || '';
+                let timeVal = data.wedding_time || '19:00';
+                let templateId = 'royal-gold-burgundy';
                 
-                // Update names (XSS safe creation)
-                const namesEl = document.querySelector('.invite-details h2');
-                if (namesEl) {
-                    namesEl.replaceChildren();
-                    const groomNode = document.createTextNode(data.groom_name);
-                    const ampSpan = document.createElement('span');
-                    ampSpan.style.fontSize = '1.5rem';
-                    ampSpan.style.color = 'var(--accent-gold)';
-                    ampSpan.style.margin = '0 15px';
-                    ampSpan.textContent = '&';
-                    const brideNode = document.createTextNode(data.bride_name);
-                    
-                    namesEl.appendChild(groomNode);
-                    namesEl.appendChild(document.createElement('br'));
-                    namesEl.appendChild(ampSpan);
-                    namesEl.appendChild(document.createElement('br'));
-                    namesEl.appendChild(brideNode);
-                }
+                // Premium fields
+                let quranVal = '';
+                let inviteSub = '';
+                let c2NameVal = '';
+                let c2DateVal = '';
+                let c2TimeVal = '';
+                let c3NameVal = '';
+                let c3DateVal = '';
+                let c3TimeVal = '';
+                let c4NameVal = '';
+                let c4DateVal = '';
+                let c4TimeVal = '';
+                let rsvpQuoteVal = '';
                 
-                // Update countdown subtitle
-                const subtitleEl = document.querySelector('.countdown-subtitle');
-                if (subtitleEl) {
-                    subtitleEl.textContent = `until ${data.groom_name} & ${data.bride_name}'s Wedding`;
-                }
-                
-                // Update date
-                const dateEl = document.querySelector('.highlight-date');
-                if (dateEl && data.wedding_date) {
-                    const d = new Date(data.wedding_date);
-                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                    dateEl.textContent = d.toLocaleDateString('en-US', options);
-                }
-                
-                // Update custom message
-                const msgEl = document.querySelector('.custom-message');
-                if (msgEl) {
-                    msgEl.textContent = `"${data.invite_message || 'Join us as we begin forever'}"`;
-                }
-                
-                // Calculate Live Countdown
-                const timerEl = document.getElementById('timer');
-                if (timerEl && data.wedding_date) {
-                    const target = new Date(data.wedding_date).getTime();
-                    
-                    const updateTimer = () => {
-                        const now = new Date().getTime();
-                        const distance = target - now;
+                try {
+                    const parsed = JSON.parse(data.invite_message);
+                    if (parsed && typeof parsed === 'object') {
+                        parsedMsg = parsed.message || '';
+                        ceremony = parsed.ceremony_name || '';
+                        venue = parsed.venue_name || '';
+                        location = parsed.venue_location || '';
+                        timeVal = parsed.wedding_time || '19:00';
+                        templateId = parsed.template_id || 'royal-gold-burgundy';
                         
-                        if (distance < 0) {
-                            timerEl.textContent = 'Event Completed';
-                        } else {
-                            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            timerEl.textContent = `${days} Days ${hours}h`;
+                        // Extract premium custom fields
+                        quranVal = parsed.quran_verse || '';
+                        inviteSub = parsed.invite_message_subtitle || '';
+                        c2NameVal = parsed.ceremony2_name || '';
+                        c2DateVal = parsed.ceremony2_date || '';
+                        c2TimeVal = parsed.ceremony2_time || '';
+                        c3NameVal = parsed.ceremony3_name || '';
+                        c3DateVal = parsed.ceremony3_date || '';
+                        c3TimeVal = parsed.ceremony3_time || '';
+                        c4NameVal = parsed.ceremony4_name || '';
+                        c4DateVal = parsed.ceremony4_date || '';
+                        c4TimeVal = parsed.ceremony4_time || '';
+                        rsvpQuoteVal = parsed.rsvp_quote || '';
+                    }
+                } catch (e) {
+                    // Legacy record parsing
+                    if (data.template_name) {
+                        const name = data.template_name.toLowerCase();
+                        if (name.includes('emerald')) templateId = 'modern-emerald';
+                        else if (name.includes('minimal') || name.includes('midnight') || name.includes('luxury')) templateId = 'midnight-luxury';
+                        else if (name.includes('floral') || name.includes('heritage') || name.includes('navy')) templateId = 'royal-heritage';
+                        else if (name.includes('modern') || name.includes('geometric') || name.includes('blushing') || name.includes('blossom')) templateId = 'blushing-blossom';
+                        else if (name.includes('scratch') || name.includes('union')) templateId = 'royal-union-scratch';
+                    }
+                }
+                
+                // Format readable wedding date
+                let formattedDate = data.wedding_date || 'Date TBD';
+                let countdownDateStr = '';
+                if (data.wedding_date && data.wedding_date.includes('-')) {
+                    try {
+                        const [year, month, day] = data.wedding_date.split('-');
+                        const [hourStr, minuteStr] = timeVal.split(':');
+                        const hour = parseInt(hourStr, 10);
+                        const minute = parseInt(minuteStr, 10);
+                        
+                        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                        const monthName = months[parseInt(month, 10) - 1] || 'Jan';
+                        
+                        const amampm = hour >= 12 ? 'PM' : 'AM';
+                        const displayHour = hour % 12 || 12;
+                        const displayMinute = minute.toString().padStart(2, '0');
+                        const displayHourStr = displayHour.toString().padStart(2, '0');
+                        
+                        formattedDate = `${parseInt(day, 10)} ${monthName} ${year}, ${displayHourStr}:${displayMinute} ${amampm}`;
+                        countdownDateStr = `${monthName} ${parseInt(day, 10)}, ${year} ${timeVal}:00`;
+                    } catch (e) {
+                        console.error("Error formatting date in invite: ", e);
+                        countdownDateStr = data.wedding_date;
+                    }
+                } else {
+                    countdownDateStr = data.wedding_date;
+                }
+                
+                const templateData = {
+                    groom_name: data.groom_name || 'Groom',
+                    bride_name: data.bride_name || 'Bride',
+                    ceremony_name: ceremony || 'Wedding Ceremony',
+                    wedding_date: formattedDate,
+                    venue_name: venue || 'Grand Venue',
+                    venue_location: location || 'Location',
+                    invite_message: parsedMsg,
+                    countdown_date: countdownDateStr,
+                    // Premium fields
+                    quran_verse: quranVal,
+                    invite_message_subtitle: inviteSub,
+                    ceremony2_name: c2NameVal,
+                    ceremony2_date: c2DateVal,
+                    ceremony2_time: c2TimeVal,
+                    ceremony3_name: c3NameVal,
+                    ceremony3_date: c3DateVal,
+                    ceremony3_time: c3TimeVal,
+                    ceremony4_name: c4NameVal,
+                    ceremony4_date: c4DateVal,
+                    ceremony4_time: c4TimeVal,
+                    rsvp_quote: rsvpQuoteVal
+                };
+                
+                const template = WeddingTemplates[templateId];
+                if (template) {
+                    let htmlOutput = template.compile(templateData);
+                    
+                    // Inject RSVP block just before </body>
+                    const rsvpBlock = `
+                    <style>
+                        .ev-rsvp-bar {
+                            position: fixed; bottom: 0; left: 0; right: 0; 
+                            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+                            padding: 15px; display: flex; justify-content: center; gap: 15px; z-index: 1000;
+                            border-top: 1px solid rgba(255,255,255,0.1);
                         }
-                    };
-                    updateTimer();
-                    setInterval(updateTimer, 60000); // update every minute
-                }
-                
-                // Update click handlers (replaces inline blocking alerts)
-                const waBtn = document.querySelector('.btn-whatsapp');
-                if (waBtn) {
-                    waBtn.onclick = null; // clear legacy inline handler
-                    waBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const shareUrl = window.location.href;
-                        const text = `You are cordially invited to the wedding of ${data.groom_name} and ${data.bride_name}! Open this link to view details: ${shareUrl}`;
-                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-                    });
-                }
-                
-                const copyBtn = document.querySelector('.btn-copy');
-                if (copyBtn) {
-                    copyBtn.onclick = null; // clear legacy inline handler
-                    copyBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        navigator.clipboard.writeText(window.location.href).then(() => {
-                            copyBtn.replaceChildren();
-                            const icon = document.createElement('i');
-                            icon.className = 'fas fa-check';
-                            copyBtn.appendChild(icon);
-                            copyBtn.appendChild(document.createTextNode(' Copied!'));
+                        .ev-rsvp-btn {
+                            padding: 10px 24px; border-radius: 30px; font-weight: 600; cursor: pointer; border: none; font-family: sans-serif; transition: 0.2s;
+                        }
+                        .ev-btn-accept { background: #10B981; color: white; }
+                        .ev-btn-reject { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.5); }
+                        .ev-btn-accept:hover { background: #059669; }
+                        .ev-btn-reject:hover { background: rgba(255,255,255,0.1); }
+                        
+                        #ev-rsvp-modal {
+                            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+                            z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px);
+                        }
+                        .ev-modal-content {
+                            background: #1a1a1a; color: white; padding: 30px; border-radius: 16px; 
+                            width: 90%; max-width: 400px; font-family: sans-serif; border: 1px solid rgba(255,255,255,0.1);
+                            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                        }
+                        .ev-input {
+                            width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+                            border-radius: 8px; color: white; box-sizing: border-box; margin-top: 5px;
+                        }
+                        .ev-input:focus { outline: none; border-color: #c5a059; }
+                    </style>
+                    <div class="ev-rsvp-bar">
+                        <button class="ev-rsvp-btn ev-btn-accept" onclick="evOpenRsvp('accepted')">Attend</button>
+                        <button class="ev-rsvp-btn ev-btn-reject" onclick="evOpenRsvp('rejected')">Decline</button>
+                    </div>
+                    <div id="ev-rsvp-modal">
+                        <div class="ev-modal-content">
+                            <h3 id="ev-rsvp-title" style="margin-top: 0; margin-bottom: 20px; font-size: 1.2rem;">RSVP</h3>
+                            <input type="hidden" id="ev-rsvp-status">
+                            <div style="margin-bottom: 15px;">
+                                <label style="font-size: 0.9rem; color: #aaa;">Your Name *</label>
+                                <input type="text" id="ev-rsvp-name" class="ev-input" placeholder="e.g. Rahul Sharma" required>
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <label id="ev-rsvp-msg-label" style="font-size: 0.9rem; color: #aaa;">Message (Optional)</label>
+                                <textarea id="ev-rsvp-msg" class="ev-input" placeholder="Write your message here..." style="min-height: 80px;"></textarea>
+                            </div>
+                            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                                <button onclick="evCloseRsvp()" style="padding: 10px 20px; background: transparent; border: none; color: #aaa; cursor: pointer;">Cancel</button>
+                                <button onclick="evSubmitRsvp()" id="ev-submit-btn" style="padding: 10px 24px; background: #c5a059; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        function evOpenRsvp(status) {
+                            document.getElementById('ev-rsvp-status').value = status;
+                            document.getElementById('ev-rsvp-title').innerText = status === 'accepted' ? 'Attending Wedding' : 'Declining Invitation';
+                            document.getElementById('ev-rsvp-msg-label').innerText = status === 'accepted' ? 'Wishes for the couple (Optional)' : 'Reason (Optional)';
+                            document.getElementById('ev-rsvp-modal').style.display = 'flex';
+                        }
+                        function evCloseRsvp() {
+                            document.getElementById('ev-rsvp-modal').style.display = 'none';
+                        }
+                        async function evSubmitRsvp() {
+                            const name = document.getElementById('ev-rsvp-name').value.trim();
+                            const msg = document.getElementById('ev-rsvp-msg').value.trim();
+                            const status = document.getElementById('ev-rsvp-status').value;
                             
-                            setTimeout(() => {
-                                copyBtn.replaceChildren();
-                                const linkIcon = document.createElement('i');
-                                linkIcon.className = 'fas fa-link';
-                                copyBtn.appendChild(linkIcon);
-                                copyBtn.appendChild(document.createTextNode(' Copy Link'));
-                            }, 2000);
-                        });
-                    });
+                            if (!name) {
+                                alert('Please enter your name.');
+                                return;
+                            }
+                            
+                            const btn = document.getElementById('ev-submit-btn');
+                            btn.innerText = 'Sending...';
+                            btn.disabled = true;
+                            
+                            try {
+                                if (!window.supabaseClient) throw new Error("Supabase client not found.");
+                                
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const inviteId = urlParams.get('id');
+                                if (!inviteId) throw new Error("Invitation ID missing. Cannot submit RSVP for preview.");
+                                
+                                const { error } = await window.supabaseClient.from('rsvps').insert([
+                                    { invitation_id: inviteId, guest_name: name, status: status, message: msg }
+                                ]);
+                                
+                                if (error) throw error;
+                                
+                                alert('Thank you! Your RSVP has been recorded.');
+                                evCloseRsvp();
+                                document.querySelector('.ev-rsvp-bar').style.display = 'none';
+                                localStorage.setItem('ev_rsvp_' + inviteId, 'true');
+                            } catch (e) {
+                                console.error(e);
+                                alert(e.message === "Invitation ID missing. Cannot submit RSVP for preview." ? e.message : 'Failed to submit RSVP. Please try again.');
+                            } finally {
+                                btn.innerText = 'Submit';
+                                btn.disabled = false;
+                            }
+                        }
+                        
+                        // Check if already RSVPed
+                        const currentInviteId = new URLSearchParams(window.location.search).get('id');
+                        if (currentInviteId && localStorage.getItem('ev_rsvp_' + currentInviteId)) {
+                            document.querySelector('.ev-rsvp-bar').style.display = 'none';
+                        }
+                    </script>
+                    `;
+                    
+                    if (htmlOutput.includes('</body>')) {
+                        htmlOutput = htmlOutput.replace('</body>', rsvpBlock + '\\n</body>');
+                    } else {
+                        htmlOutput += rsvpBlock;
+                    }
+                    
+                    document.open();
+                    document.write(htmlOutput);
+                    document.close();
                 }
             }
         });

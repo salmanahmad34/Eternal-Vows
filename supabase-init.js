@@ -1,6 +1,6 @@
 // ETERNAL VOWZ - SUPABASE INITIALIZATION
-const SUPABASE_URL = 'https://yaqzxbwkocgthkocisgd.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_CtOJUbECzSykg5Q82dV1rA_qjqy3B6K';
+const SUPABASE_URL = 'REPLACE_SUPABASE_URL';
+const SUPABASE_KEY = 'REPLACE_SUPABASE_KEY';
 
 let supabaseClient = null;
 
